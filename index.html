@@ -92,6 +92,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn[aria-pressed="true"]{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
 .btn__punto{width:7px;height:7px;border-radius:50%;background:var(--senal);flex-shrink:0}
 .btn[aria-pressed="true"] .btn__punto{background:#1A1204}
+.btn--alerta[aria-pressed="true"]{background:#C1443A;border-color:#C1443A;color:#fff}
+.btn--alerta[aria-pressed="true"] .btn__punto{background:#fff}
 
 /* ---------- Lista de zonas ---------- */
 .lista{
@@ -118,6 +120,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zona__nombre{display:block;font-weight:500;font-size:14px;line-height:1.35}
 .zona__meta{display:block;margin-top:3px;font-size:11.5px;color:var(--ceniza);font-family:"IBM Plex Mono",monospace}
 .zona__sin{color:var(--ceniza)}
+.zona__alerta{color:#E8756B;font-weight:600}
 .lista__pie{padding:13px 18px;border-top:1px solid var(--granito);font-size:11.5px;color:var(--ceniza)}
 .lista__pie a{color:var(--senal)}
 
@@ -155,6 +158,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .aviso code{
   font-family:"IBM Plex Mono",monospace;font-size:12px;
   color:var(--hueso);background:var(--carbon-alto);padding:1px 5px;border-radius:2px;
+}
+.alerta-etiqueta{
+  display:inline-block;margin:0 0 14px;padding:4px 10px;border-radius:20px;
+  background:rgba(193,68,58,.16);color:#E8756B;
+  font-size:12px;font-weight:600;
 }
 
 /* ---------- Tira inferior de coordenadas ---------- */
@@ -206,6 +214,11 @@ body.modo-anadir .tira__ayuda{display:block}
   transform:scale(1.12);
 }
 .marcador--vacio{background:var(--granito);color:var(--ceniza);box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.marcador--alerta{
+  background:#C1443A;color:#fff;font-size:14px;
+  box-shadow:0 0 0 5px rgba(193,68,58,.28),0 2px 8px rgba(0,0,0,.5);
+}
+.marcador--alerta.marcador--activo{box-shadow:0 0 0 10px rgba(193,68,58,.3),0 2px 10px rgba(0,0,0,.5)}
 .leaflet-tooltip.etiqueta{
   background:var(--carbon);border:1px solid var(--granito);color:var(--hueso);
   font-size:12px;font-weight:500;box-shadow:none;padding:4px 8px;
@@ -281,6 +294,7 @@ body.modo-anadir .tira__ayuda{display:block}
   <span class="tira__creditos">Creado por AJMS con el valioso material y esfuerzo de los vecinos de La Adrada<span id="actualizado"></span></span>
   <div class="tira__acciones">
     <button id="btn-modo" class="btn" aria-pressed="false"><span class="btn__punto"></span>Añadir zona</button>
+    <button id="btn-modo-alerta" class="btn btn--alerta" aria-pressed="false">🔥 Posible reactivación</button>
   </div>
 </div>
 
@@ -335,6 +349,7 @@ body.modo-anadir .tira__ayuda{display:block}
   zonas.forEach(function(z){
     indice++;
     var n = indice;
+    var esAlerta = z.tipo === "reactivacion";
     var conVideo = Array.isArray(z.videos) && z.videos.length > 0;
 
     if (Array.isArray(z.area) && z.area.length > 2) {
@@ -344,9 +359,11 @@ body.modo-anadir .tira__ayuda{display:block}
       }).addTo(mapa);
     }
 
+    var claseMarcador = esAlerta ? " marcador--alerta" : (conVideo ? "" : " marcador--vacio");
+    var contenidoMarcador = esAlerta ? "🔥" : n;
     var icono = L.divIcon({
       className: "marcador-caja",
-      html: '<div class="marcador' + (conVideo ? "" : " marcador--vacio") + '">' + n + "</div>",
+      html: '<div class="marcador' + claseMarcador + '">' + contenidoMarcador + "</div>",
       iconSize: [30, 30],
       iconAnchor: [15, 15]
     });
@@ -356,14 +373,19 @@ body.modo-anadir .tira__ayuda{display:block}
     m.on("click", function(){ abrir(z.id); });
     marcadores[z.id] = m;
 
+    var metaTexto = esAlerta
+      ? "posible reactivación"
+      : (conVideo ? z.videos.length + (z.videos.length === 1 ? " vídeo" : " vídeos") : "sin vídeo");
+    var metaClase = esAlerta ? " zona__alerta" : (conVideo ? "" : " zona__sin");
+
     var li = document.createElement("li");
     var btn = document.createElement("button");
     btn.className = "zona";
     btn.innerHTML =
       '<span class="zona__num">' + String(n).padStart(2, "0") + "</span>" +
       '<span><span class="zona__nombre">' + esc(z.nombre) + "</span>" +
-      '<span class="zona__meta' + (conVideo ? "" : " zona__sin") + '">' +
-        (conVideo ? z.videos.length + (z.videos.length === 1 ? " vídeo" : " vídeos") : "sin vídeo") +
+      '<span class="zona__meta' + metaClase + '">' +
+        metaTexto +
         (z.fecha ? " · " + esc(z.fecha) : "") +
       "</span></span>";
     btn.addEventListener("click", function(){ abrir(z.id); });
@@ -373,9 +395,11 @@ body.modo-anadir .tira__ayuda{display:block}
   });
 
   var conVideoTotal = zonas.filter(function(z){ return z.videos && z.videos.length; }).length;
+  var alertaTotal = zonas.filter(function(z){ return z.tipo === "reactivacion"; }).length;
   document.getElementById("cuenta").textContent = zonas.length;
   document.getElementById("resumen").textContent = zonas.length
-    ? zonas.length + (zonas.length === 1 ? " punto" : " puntos") + " · " + conVideoTotal + " con vídeo"
+    ? zonas.length + (zonas.length === 1 ? " punto" : " puntos") + " · " + conVideoTotal + " con vídeo" +
+      (alertaTotal ? " · " + alertaTotal + " en alerta" : "")
     : "Todavía no hay ninguna zona. Añádelas en zonas.js.";
 
   if (zonas.length > 1) {
@@ -397,10 +421,13 @@ body.modo-anadir .tira__ayuda{display:block}
     activa = id;
     marcar(id, true);
 
+    var esAlerta = z.tipo === "reactivacion";
+
     document.getElementById("panel-paraje").textContent = z.paraje || "";
     document.getElementById("panel-nombre").textContent = z.nombre;
 
     var html = "";
+    if (esAlerta) html += '<p class="alerta-etiqueta">🔥 Posible reactivación</p>';
     if (z.descripcion) html += '<p class="panel__desc">' + esc(z.descripcion) + "</p>";
 
     if (z.videos && z.videos.length) {
@@ -418,7 +445,7 @@ body.modo-anadir .tira__ayuda{display:block}
         }
         html += "</div>";
       });
-    } else {
+    } else if (!esAlerta) {
       html += '<div class="aviso">Esta zona todavía no tiene vídeo. Copia el archivo en la carpeta ' +
               "<code>videos/</code> y añádelo a esta zona en <code>zonas.js</code>.</div>";
     }
@@ -485,33 +512,52 @@ body.modo-anadir .tira__ayuda{display:block}
   else mapa.on("mousemove", function(e){ pinta(e.latlng); });
 
   var modo = false;
+  var modoTipo = "video";
   var btnModo = document.getElementById("btn-modo");
+  var btnModoAlerta = document.getElementById("btn-modo-alerta");
   var captura = document.getElementById("captura");
   var codigo = document.getElementById("captura-codigo");
 
-  btnModo.addEventListener("click", function(){
-    modo = !modo;
-    btnModo.setAttribute("aria-pressed", String(modo));
+  function activarModo(tipo){
+    modo = !(modo && modoTipo === tipo);
+    modoTipo = tipo;
+    btnModo.setAttribute("aria-pressed", String(modo && modoTipo === "video"));
+    btnModoAlerta.setAttribute("aria-pressed", String(modo && modoTipo === "reactivacion"));
     document.body.classList.toggle("modo-anadir", modo);
     var c = mapa.getContainer();
     c.style.cursor = modo ? "crosshair" : "";
     if (!modo) captura.hidden = true;
-  });
+  }
+  btnModo.addEventListener("click", function(){ activarModo("video"); });
+  btnModoAlerta.addEventListener("click", function(){ activarModo("reactivacion"); });
 
   mapa.on("click", function(e){
     if (!modo) return;
     var siguiente = zonas.reduce(function(max, z){ return Math.max(max, Number(z.id) || 0); }, 0) + 1;
-    codigo.textContent =
-      "{\n" +
-      "  id: " + siguiente + ",\n" +
-      '  nombre: "",\n' +
-      '  paraje: "",\n' +
-      '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
-      '  autor: "",\n' +
-      '  descripcion: "",\n' +
-      "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "],\n" +
-      '  videos: [{ src: "videos/nombre-del-archivo.mp4" }]\n' +
-      "},";
+    if (modoTipo === "reactivacion") {
+      codigo.textContent =
+        "{\n" +
+        "  id: " + siguiente + ",\n" +
+        '  nombre: "",\n' +
+        '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
+        '  autor: "",\n' +
+        '  descripcion: "",\n' +
+        '  tipo: "reactivacion",\n' +
+        "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "]\n" +
+        "},";
+    } else {
+      codigo.textContent =
+        "{\n" +
+        "  id: " + siguiente + ",\n" +
+        '  nombre: "",\n' +
+        '  paraje: "",\n' +
+        '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
+        '  autor: "",\n' +
+        '  descripcion: "",\n' +
+        "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "],\n" +
+        '  videos: [{ src: "videos/nombre-del-archivo.mp4" }]\n' +
+        "},";
+    }
     captura.hidden = false;
   });
 

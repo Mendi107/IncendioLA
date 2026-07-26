@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -141,6 +141,7 @@ textarea{resize:vertical;min-height:64px}
   box-shadow:0 0 0 4px rgba(232,163,61,.15);cursor:grab;
 }
 .marcador--vacio{background:var(--granito);color:var(--ceniza);box-shadow:none}
+.marcador--alerta{background:#C1443A;color:#fff}
 .marcador--sel{box-shadow:0 0 0 9px rgba(232,163,61,.25);transform:scale(1.12)}
 
 @media (max-width:1200px){
@@ -232,12 +233,13 @@ textarea{resize:vertical;min-height:64px}
     Object.keys(marcas).forEach(function(k){ mapa.removeLayer(marcas[k]); });
     marcas = {};
     datos.forEach(function(z, i){
+      var claseAlerta = z.tipo === "reactivacion" ? " marcador--alerta" : (nClips(z) ? "" : " marcador--vacio");
       var m = L.marker(z.coords, {
         draggable: true,
         icon: L.divIcon({
           className: "marcador-caja",
-          html: '<div class="marcador' + (nClips(z) ? "" : " marcador--vacio") +
-                (z.id === sel ? " marcador--sel" : "") + '">' + (i + 1) + "</div>",
+          html: '<div class="marcador' + claseAlerta +
+                (z.id === sel ? " marcador--sel" : "") + '">' + (z.tipo === "reactivacion" ? "🔥" : (i + 1)) + "</div>",
           iconSize: [28,28], iconAnchor: [14,14]
         })
       }).addTo(mapa);
@@ -310,6 +312,10 @@ textarea{resize:vertical;min-height:64px}
         '<label><span>Fecha</span><input type="date" data-campo="fecha" value="' + esc(z.fecha) + '"></label>' +
         '<label><span>Autor</span><input type="text" data-campo="autor" value="' + esc(z.autor) + '" placeholder="Quién grabó"></label>' +
       "</div>" +
+      '<label><span>Tipo</span><select data-campo="tipo">' +
+        '<option value=""' + (z.tipo === "reactivacion" ? "" : " selected") + ">Vídeo</option>" +
+        '<option value="reactivacion"' + (z.tipo === "reactivacion" ? " selected" : "") + ">Posible reactivación</option>" +
+      "</select></label>" +
       '<label><span>Descripción</span><textarea data-campo="descripcion" placeholder="Qué se ve en el vídeo">' + esc(z.descripcion) + "</textarea></label>" +
       '<div class="clips"><div class="clips__cab">Vídeos<button class="btn btn--min" id="btn-clip">+ Añadir</button></div>' +
       '<div id="clips"></div>' +
@@ -322,6 +328,7 @@ textarea{resize:vertical;min-height:64px}
         z[el.dataset.campo] = el.value;
         toca(); lista();
         if (marcas[z.id]) marcas[z.id].setTooltipContent(z.nombre || "(sin nombre)");
+        if (el.dataset.campo === "tipo") pinta();
       });
     });
 
@@ -411,6 +418,7 @@ textarea{resize:vertical;min-height:64px}
       if (z.fecha) l.push("    fecha: " + JSON.stringify(z.fecha));
       if (z.autor) l.push("    autor: " + JSON.stringify(z.autor));
       if (z.descripcion) l.push("    descripcion: " + JSON.stringify(z.descripcion));
+      if (z.tipo) l.push("    tipo: " + JSON.stringify(z.tipo));
       l.push("    coords: [" + z.coords[0] + ", " + z.coords[1] + "]");
       var vids = (z.videos || []).map(function(v){
         var p = [];

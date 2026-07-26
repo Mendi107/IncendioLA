@@ -1,4 +1,4 @@
-# La Adrada · vídeos del incendio
+﻿# La Adrada · vídeos del incendio
 
 Mapa vecinal: cada punto del mapa abre los vídeos grabados en esa zona.
 Sitio 100 % estático, sin base de datos, sin servidor y sin claves de API.
@@ -68,6 +68,25 @@ area: [[40.3120, -4.6460], [40.3130, -4.6370], [40.3070, -4.6350]]
 
 La URL cambia sola al abrir una zona: `.../#z=3`. Ese enlace abre directamente ese vídeo.
 Útil para los grupos de WhatsApp del pueblo.
+
+### Punto de posible reactivación (sin vídeo)
+
+Para marcar un sitio donde el fuego se pudo haber reavivado, sin necesidad de vídeo,
+añade `tipo: "reactivacion"`. Sale en el mapa en rojo con una llama, en vez del número normal:
+
+```js
+{
+  id: 15,
+  nombre: "Ladera detrás del pinar",
+  fecha: "2026-07-27",
+  descripcion: "Se ve humo de nuevo desde la carretera",
+  tipo: "reactivacion",
+  coords: [40.3050, -4.6400]
+}
+```
+
+En la propia web pública hay un botón **"Posible reactivación"** junto a "Añadir zona" que
+genera este mismo bloque solo con hacer clic en el mapa.
 
 ---
 
