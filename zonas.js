@@ -60,7 +60,7 @@ const ZONAS = [
     descripcion: "Chalet afectado (sólo exterior)",
     coords: [40.30167, -4.62227],
     videos: [
-      { src: "videos/Pradollano.mp4" },
+      { src: "videos/pradollano.mp4" },
       { src: "videos/2026-07-26-18.mp4" }
     ]
   },
@@ -72,7 +72,7 @@ const ZONAS = [
     coords: [40.30654, -4.62605],
     videos: [
       { src: "videos/2026-07-26-08.mp4" },
-      { src: "videos/Solana 2507.mp4" }
+      { src: "videos/solana-2507.mp4" }
     ]
   },
 
@@ -172,24 +172,6 @@ const ZONAS = [
     ]
   },
 
-  {
-    id: 17,
-    nombre: "ICONA / Navalpino",
-    fecha: "2026-07-26",
-    tipo: "reactivacion",
-    coords: [40.3051, -4.64933],
-    videos: []
-  },
-
-  {
-    id: 18,
-    nombre: "Las Juntas",
-    paraje: "78M3+42 La Adrada",
-    fecha: "2026-07-26",
-    tipo: "reactivacion",
-    coords: [40.28368, -4.69678],
-    videos: []
-  },
 
   {
     id: 19,
@@ -204,7 +186,9 @@ const ZONAS = [
     nombre: "Los Barreros / Salida del Pueblo",
     fecha: "2026-07-26",
     coords: [40.30129, -4.62576],
-    videos: []
+    videos: [
+      { src: "videos/barreros.mp4" }
+    ]
   },
 
   {
@@ -225,6 +209,17 @@ const ZONAS = [
     coords: [40.30283, -4.63531],
     videos: [
       { src: "videos/cruceermita.mp4" }
+    ]
+  },
+
+  {
+    id: 24,
+    nombre: "El Cauce",
+    fecha: "2026-07-26",
+    autor: "Oscar",
+    coords: [40.30317, -4.64034],
+    videos: [
+      { src: "videos/elcauce.mp4" }
     ]
   }
 
