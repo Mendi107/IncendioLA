@@ -120,7 +120,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zona__sin{color:var(--ceniza)}
 .lista__pie{padding:13px 18px;border-top:1px solid var(--granito);font-size:11.5px;color:var(--ceniza)}
 .lista__pie a{color:var(--senal)}
-.lista__creditos{margin:8px 0 0;font-size:10.5px;color:var(--ceniza);opacity:.75}
 
 /* ---------- Panel del vídeo ---------- */
 .panel{
@@ -169,6 +168,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 body.modo-anadir .tira__ayuda{display:block}
 .tira__acciones{margin-left:auto;display:flex;gap:8px}
 .tira .btn{height:30px;font-size:12px;padding:0 11px}
+.tira__creditos{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-size:10px;color:var(--ceniza);opacity:.7;white-space:nowrap;
+  pointer-events:none;
+}
 
 /* ---------- Captura de coordenadas ---------- */
 .captura{
@@ -227,6 +231,7 @@ body.modo-anadir .tira__ayuda{display:block}
     transform:translateY(105%);
   }
   .leaflet-control-zoom{display:none}
+  .tira__creditos{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -256,7 +261,6 @@ body.modo-anadir .tira__ayuda{display:block}
   <ol class="lista__items" id="items"></ol>
   <div class="lista__pie">
     Los vídeos los han grabado vecinos del pueblo. Si alguno es tuyo y no quieres que aparezca, dilo y se retira.
-    <p class="lista__creditos">Creado por AJMS con el valioso material y esfuerzo de los vecinos de La Adrada<span id="actualizado"></span></p>
   </div>
 </aside>
 
@@ -274,6 +278,7 @@ body.modo-anadir .tira__ayuda{display:block}
 <div class="tira">
   <span class="tira__coords mono" id="coords">—</span>
   <span class="tira__ayuda">Haz clic en el mapa para capturar el punto</span>
+  <span class="tira__creditos">Creado por AJMS con el valioso material y esfuerzo de los vecinos de La Adrada<span id="actualizado"></span></span>
   <div class="tira__acciones">
     <button id="btn-modo" class="btn" aria-pressed="false"><span class="btn__punto"></span>Añadir zona</button>
   </div>
@@ -548,8 +553,8 @@ body.modo-anadir .tira__ayuda{display:block}
     .then(function(commits){
       if (!commits || !commits[0]) return;
       var d = new Date(commits[0].commit.committer.date);
-      var texto = d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
-      document.getElementById("actualizado").textContent = " · Última actualización: " + texto;
+      var texto = d.toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
+      document.getElementById("actualizado").textContent = " · " + texto;
     })
     .catch(function(){});
 })();

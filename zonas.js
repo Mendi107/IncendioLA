@@ -60,7 +60,7 @@ const ZONAS = [
     descripcion: "Chalet afectado (sólo exterior)",
     coords: [40.30167, -4.62227],
     videos: [
-      { src: "videos/pradollano.mp4" },
+      { src: "videos/Pradollano.mp4" },
       { src: "videos/2026-07-26-18.mp4" }
     ]
   },
@@ -72,7 +72,7 @@ const ZONAS = [
     coords: [40.30654, -4.62605],
     videos: [
       { src: "videos/2026-07-26-08.mp4" },
-      { src: "videos/solana-2507.mp4" }
+      { src: "videos/Solana 2507.mp4" }
     ]
   },
 
@@ -136,7 +136,9 @@ const ZONAS = [
     fecha: "2026-07-26",
     autor: "María",
     coords: [40.30551, -4.64608],
-    videos: []
+    videos: [
+      { src: "videos/2026-07-26-11.mp4" }
+    ]
   }
 
 ];
