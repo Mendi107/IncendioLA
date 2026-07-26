@@ -185,6 +185,14 @@ const ZONAS = [
     tipo: "reactivacion",
     coords: [40.28368, -4.69678],
     videos: []
+  },
+
+  {
+    id: 19,
+    nombre: "El Chorrillo",
+    fecha: "2026-07-26",
+    coords: [40.30479, -4.6314],
+    videos: []
   }
 
 ];
