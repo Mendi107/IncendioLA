@@ -51,6 +51,92 @@ const ZONAS = [
     videos: [
       { src: "videos/via-moreras.mp4" }
     ]
+  },
+
+  {
+    id: 6,
+    nombre: "Pradollano / Los Barreros",
+    fecha: "2026-07-26",
+    descripcion: "Chalet afectado (sólo exterior)",
+    coords: [40.30167, -4.62227],
+    videos: [
+      { src: "videos/pradollano.mp4" },
+      { src: "videos/2026-07-26-18.mp4" }
+    ]
+  },
+
+  {
+    id: 7,
+    nombre: "Urb. Solana ",
+    fecha: "2026-07-26",
+    coords: [40.30654, -4.62605],
+    videos: [
+      { src: "videos/2026-07-26-08.mp4" },
+      { src: "videos/solana-2507.mp4" }
+    ]
+  },
+
+  {
+    id: 8,
+    nombre: "Castaños de la Villa",
+    fecha: "2026-07-26",
+    autor: "Rafael",
+    coords: [40.30773, -4.63534],
+    videos: [
+      { src: "videos/2026-07-26-13.mp4" }
+    ]
+  },
+
+  {
+    id: 9,
+    nombre: "Cementerio / Fábrica Textil",
+    fecha: "2026-07-26",
+    autor: "María",
+    coords: [40.29432, -4.64808],
+    videos: [
+      { src: "videos/2026-07-26-14.mp4" }
+    ]
+  },
+
+  {
+    id: 10,
+    nombre: "Centro del Pueblo ",
+    fecha: "2026-07-26",
+    autor: "María",
+    coords: [40.30132, -4.63664],
+    videos: [
+      { src: "videos/2026-07-26-15.mp4" }
+    ]
+  },
+
+  {
+    id: 11,
+    nombre: "Quesería / Campamento",
+    fecha: "2026-07-26",
+    autor: "María",
+    coords: [40.31219, -4.6582],
+    videos: [
+      { src: "videos/2026-07-26-17.mp4" }
+    ]
+  },
+
+  {
+    id: 12,
+    nombre: "Camino Forestal / Martinete",
+    fecha: "2026-07-26",
+    coords: [40.31103, -4.63812],
+    videos: [
+      { src: "videos/2026-07-26-16.mp4" }
+    ]
+  },
+
+  {
+    id: 13,
+    nombre: "La Viña / Gasolinera",
+    fecha: "2026-07-26",
+    autor: "María",
+    coords: [40.30551, -4.64608],
+    videos: []
   }
 
 ];

@@ -3,6 +3,12 @@ originales/
 
 # Los vídeos comprimidos SÍ se suben (están en videos/), no los excluyas.
 
+# Exportación en bruto del chat de WhatsApp: mensajes y teléfonos de vecinos.
+whatsapp/
+
+# Inventario de recopilación: contiene teléfonos, es solo para uso interno.
+inventario.csv
+
 # Basura del sistema
 Thumbs.db
 desktop.ini
