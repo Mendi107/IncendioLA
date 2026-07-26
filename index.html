@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -120,6 +120,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zona__sin{color:var(--ceniza)}
 .lista__pie{padding:13px 18px;border-top:1px solid var(--granito);font-size:11.5px;color:var(--ceniza)}
 .lista__pie a{color:var(--senal)}
+.lista__creditos{margin:8px 0 0;font-size:10.5px;color:var(--ceniza);opacity:.75}
 
 /* ---------- Panel del vídeo ---------- */
 .panel{
@@ -255,6 +256,7 @@ body.modo-anadir .tira__ayuda{display:block}
   <ol class="lista__items" id="items"></ol>
   <div class="lista__pie">
     Los vídeos los han grabado vecinos del pueblo. Si alguno es tuyo y no quieres que aparezca, dilo y se retira.
+    <p class="lista__creditos">Creado por AJMS con el valioso material y esfuerzo de los vecinos de La Adrada<span id="actualizado"></span></p>
   </div>
 </aside>
 
@@ -540,6 +542,16 @@ body.modo-anadir .tira__ayuda{display:block}
       .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
+
+  fetch("https://api.github.com/repos/Mendi107/IncendioLA/commits?path=zonas.js&per_page=1")
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(commits){
+      if (!commits || !commits[0]) return;
+      var d = new Date(commits[0].commit.committer.date);
+      var texto = d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+      document.getElementById("actualizado").textContent = " · Última actualización: " + texto;
+    })
+    .catch(function(){});
 })();
 </script>
 </body>
