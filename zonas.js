@@ -166,6 +166,25 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.30768, -4.65739],
     videos: []
+  },
+
+  {
+    id: 17,
+    nombre: "ICONA / Navalpino",
+    fecha: "2026-07-26",
+    tipo: "reactivacion",
+    coords: [40.3051, -4.64933],
+    videos: []
+  },
+
+  {
+    id: 18,
+    nombre: "Las Juntas",
+    paraje: "78M3+42 La Adrada",
+    fecha: "2026-07-26",
+    tipo: "reactivacion",
+    coords: [40.28368, -4.69678],
+    videos: []
   }
 
 ];
