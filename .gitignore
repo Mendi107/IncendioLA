@@ -1,0 +1,14 @@
+# Vídeos tal como llegaron: pesan demasiado y no se publican.
+originales/
+
+# Los vídeos comprimidos SÍ se suben (están en videos/), no los excluyas.
+
+# Basura del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Temporales
+*.tmp
+*.log
+*.part
