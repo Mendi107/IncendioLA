@@ -157,7 +157,9 @@ const ZONAS = [
     nombre: "La Alegría",
     fecha: "2026-07-26",
     coords: [40.30231, -4.64368],
-    videos: []
+    videos: [
+      { src: "videos/alegria.mp4" }
+    ]
   },
 
   {
