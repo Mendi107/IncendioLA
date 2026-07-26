@@ -214,6 +214,16 @@ const ZONAS = [
     videos: [
       { src: "videos/depositos.mp4" }
     ]
+  },
+
+  {
+    id: 23,
+    nombre: "Kioskos / Ermita",
+    fecha: "2026-07-26",
+    coords: [40.30283, -4.63531],
+    videos: [
+      { src: "videos/cruceermita.mp4" }
+    ]
   }
 
 ];
