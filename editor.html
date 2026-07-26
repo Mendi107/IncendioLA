@@ -51,6 +51,7 @@ button,input,textarea,select{font:inherit;color:inherit}
 .btn:hover{background:var(--granito)}
 .btn--principal{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
 .btn--principal:hover{background:#F0B155}
+.btn--alerta[aria-pressed="true"]{background:#C1443A;border-color:#C1443A;color:#fff}
 .btn--peligro:hover{background:#4A2320;border-color:#7A3A33}
 .btn--min{height:27px;padding:0 9px;font-size:12px}
 
@@ -159,6 +160,7 @@ textarea{resize:vertical;min-height:64px}
   <div class="barra__acc">
     <span class="pendiente" id="pendiente"></span>
     <button class="btn" id="btn-capa">Satélite</button>
+    <button class="btn btn--alerta" id="btn-modo-alerta" aria-pressed="false">🔥 Reactivación</button>
     <button class="btn btn--principal" id="btn-guardar">Descargar zonas.js</button>
   </div>
 </header>
@@ -254,13 +256,23 @@ textarea{resize:vertical;min-height:64px}
     });
   }
 
+  var modoAlerta = false;
+  var btnAlerta = document.getElementById("btn-modo-alerta");
+  btnAlerta.addEventListener("click", function(){
+    modoAlerta = !modoAlerta;
+    btnAlerta.setAttribute("aria-pressed", String(modoAlerta));
+    mapa.getContainer().style.cursor = modoAlerta ? "crosshair" : "";
+  });
+
   mapa.on("click", function(e){
     var id = datos.reduce(function(m, z){ return Math.max(m, Number(z.id) || 0); }, 0) + 1;
-    datos.push({
+    var nueva = {
       id: id, nombre: "", paraje: "", fecha: hoy(), autor: "", descripcion: "",
       coords: [Number(e.latlng.lat.toFixed(5)), Number(e.latlng.lng.toFixed(5))],
       videos: []
-    });
+    };
+    if (modoAlerta) nueva.tipo = "reactivacion";
+    datos.push(nueva);
     toca(); selecciona(id);
     var inp = document.querySelector("#form-cuerpo input[data-campo=nombre]");
     if (inp) inp.focus();

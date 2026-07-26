@@ -150,6 +150,22 @@ const ZONAS = [
     videos: [
       { src: "videos/carvic.mp4" }
     ]
+  },
+
+  {
+    id: 15,
+    nombre: "La Alegría",
+    fecha: "2026-07-26",
+    coords: [40.30231, -4.64368],
+    videos: []
+  },
+
+  {
+    id: 16,
+    nombre: "La Cabaña",
+    fecha: "2026-07-26",
+    coords: [40.30768, -4.65739],
+    videos: []
   }
 
 ];

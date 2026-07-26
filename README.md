@@ -85,8 +85,10 @@ añade `tipo: "reactivacion"`. Sale en el mapa en rojo con una llama, en vez del
 }
 ```
 
-En la propia web pública hay un botón **"Posible reactivación"** junto a "Añadir zona" que
-genera este mismo bloque solo con hacer clic en el mapa.
+En `editor.html` hay un botón **"🔥 Reactivación"**: actívalo y el siguiente clic en el mapa
+crea directamente una zona de este tipo, sin necesidad de escribir `tipo:` a mano. No está
+disponible en la web pública a propósito — solo tú puedes crear estos puntos, para evitar
+avisos falsos de reactivación del incendio.
 
 ---
 

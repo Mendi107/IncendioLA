@@ -92,8 +92,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn[aria-pressed="true"]{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
 .btn__punto{width:7px;height:7px;border-radius:50%;background:var(--senal);flex-shrink:0}
 .btn[aria-pressed="true"] .btn__punto{background:#1A1204}
-.btn--alerta[aria-pressed="true"]{background:#C1443A;border-color:#C1443A;color:#fff}
-.btn--alerta[aria-pressed="true"] .btn__punto{background:#fff}
 
 /* ---------- Lista de zonas ---------- */
 .lista{
@@ -294,7 +292,6 @@ body.modo-anadir .tira__ayuda{display:block}
   <span class="tira__creditos">Creado por AJMS con el valioso material y esfuerzo de los vecinos de La Adrada<span id="actualizado"></span></span>
   <div class="tira__acciones">
     <button id="btn-modo" class="btn" aria-pressed="false"><span class="btn__punto"></span>Añadir zona</button>
-    <button id="btn-modo-alerta" class="btn btn--alerta" aria-pressed="false">🔥 Posible reactivación</button>
   </div>
 </div>
 
@@ -512,52 +509,33 @@ body.modo-anadir .tira__ayuda{display:block}
   else mapa.on("mousemove", function(e){ pinta(e.latlng); });
 
   var modo = false;
-  var modoTipo = "video";
   var btnModo = document.getElementById("btn-modo");
-  var btnModoAlerta = document.getElementById("btn-modo-alerta");
   var captura = document.getElementById("captura");
   var codigo = document.getElementById("captura-codigo");
 
-  function activarModo(tipo){
-    modo = !(modo && modoTipo === tipo);
-    modoTipo = tipo;
-    btnModo.setAttribute("aria-pressed", String(modo && modoTipo === "video"));
-    btnModoAlerta.setAttribute("aria-pressed", String(modo && modoTipo === "reactivacion"));
+  btnModo.addEventListener("click", function(){
+    modo = !modo;
+    btnModo.setAttribute("aria-pressed", String(modo));
     document.body.classList.toggle("modo-anadir", modo);
     var c = mapa.getContainer();
     c.style.cursor = modo ? "crosshair" : "";
     if (!modo) captura.hidden = true;
-  }
-  btnModo.addEventListener("click", function(){ activarModo("video"); });
-  btnModoAlerta.addEventListener("click", function(){ activarModo("reactivacion"); });
+  });
 
   mapa.on("click", function(e){
     if (!modo) return;
     var siguiente = zonas.reduce(function(max, z){ return Math.max(max, Number(z.id) || 0); }, 0) + 1;
-    if (modoTipo === "reactivacion") {
-      codigo.textContent =
-        "{\n" +
-        "  id: " + siguiente + ",\n" +
-        '  nombre: "",\n' +
-        '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
-        '  autor: "",\n' +
-        '  descripcion: "",\n' +
-        '  tipo: "reactivacion",\n' +
-        "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "]\n" +
-        "},";
-    } else {
-      codigo.textContent =
-        "{\n" +
-        "  id: " + siguiente + ",\n" +
-        '  nombre: "",\n' +
-        '  paraje: "",\n' +
-        '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
-        '  autor: "",\n' +
-        '  descripcion: "",\n' +
-        "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "],\n" +
-        '  videos: [{ src: "videos/nombre-del-archivo.mp4" }]\n' +
-        "},";
-    }
+    codigo.textContent =
+      "{\n" +
+      "  id: " + siguiente + ",\n" +
+      '  nombre: "",\n' +
+      '  paraje: "",\n' +
+      '  fecha: "' + new Date().toISOString().slice(0, 10) + '",\n' +
+      '  autor: "",\n' +
+      '  descripcion: "",\n' +
+      "  coords: [" + e.latlng.lat.toFixed(5) + ", " + e.latlng.lng.toFixed(5) + "],\n" +
+      '  videos: [{ src: "videos/nombre-del-archivo.mp4" }]\n' +
+      "},";
     captura.hidden = false;
   });
 
