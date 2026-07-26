@@ -198,15 +198,6 @@ const ZONAS = [
   },
 
   {
-    id: 20,
-    nombre: "Vía - Los Castaños",
-    fecha: "2026-07-26",
-    tipo: "reactivacion",
-    coords: [40.31096, -4.63652],
-    videos: []
-  },
-
-  {
     id: 21,
     nombre: "Los Barreros / Salida del Pueblo",
     fecha: "2026-07-26",
