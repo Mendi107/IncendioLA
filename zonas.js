@@ -211,8 +211,17 @@ const ZONAS = [
     nombre: "Los Barreros / Salida del Pueblo",
     fecha: "2026-07-26",
     coords: [40.30129, -4.62576],
+    videos: []
+  },
+
+  {
+    id: 22,
+    nombre: "Vista desde los Depósitos",
+    fecha: "2026-07-26",
+    autor: "Juan",
+    coords: [40.29981, -4.63994],
     videos: [
-      { src: "videos/barreros.mp4" }
+      { src: "videos/depositos.mp4" }
     ]
   }
 
