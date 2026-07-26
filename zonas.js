@@ -139,6 +139,17 @@ const ZONAS = [
     videos: [
       { src: "videos/2026-07-26-11.mp4" }
     ]
+  },
+
+  {
+    id: 14,
+    nombre: "Ladera CARVIC",
+    fecha: "2026-07-26",
+    autor: "Aser",
+    coords: [40.29486, -4.63252],
+    videos: [
+      { src: "videos/carvic.mp4" }
+    ]
   }
 
 ];
