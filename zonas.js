@@ -157,9 +157,7 @@ const ZONAS = [
     nombre: "La Alegría",
     fecha: "2026-07-26",
     coords: [40.30231, -4.64368],
-    videos: [
-      { src: "videos/alegria.mp4" }
-    ]
+    videos: []
   },
 
   {
@@ -204,6 +202,16 @@ const ZONAS = [
     tipo: "reactivacion",
     coords: [40.31096, -4.63652],
     videos: []
+  },
+
+  {
+    id: 21,
+    nombre: "Los Barreros / Salida del Pueblo",
+    fecha: "2026-07-26",
+    coords: [40.30129, -4.62576],
+    videos: [
+      { src: "videos/barreros.mp4" }
+    ]
   }
 
 ];
