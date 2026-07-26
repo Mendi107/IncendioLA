@@ -193,6 +193,15 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.30479, -4.6314],
     videos: []
+  },
+
+  {
+    id: 20,
+    nombre: "Vía - Los Castaños",
+    fecha: "2026-07-26",
+    tipo: "reactivacion",
+    coords: [40.31096, -4.63652],
+    videos: []
   }
 
 ];
