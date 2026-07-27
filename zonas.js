@@ -149,7 +149,8 @@ const ZONAS = [
     autor: "Aser",
     coords: [40.29486, -4.63252],
     videos: [
-      { src: "videos/carvic.mp4" }
+      { src: "videos/carvic.mp4" },
+      { src: "videos/ladera.mp4", autor: "María" }
     ]
   },
 
