@@ -79,13 +79,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .barra h1{font-size:17px;line-height:1.2;white-space:nowrap}
 .barra__marca{min-width:0;overflow:hidden}
-.barra__acciones{margin-left:auto;display:flex;gap:8px;flex-shrink:0;width:min(460px,46vw)}
+.barra__acciones{margin-left:auto;display:flex;gap:8px;flex-shrink:1;min-width:0;max-width:min(460px,46vw)}
 .barra__acciones .btn--cancion,.barra__acciones .btn--capa{flex:1 1 0;min-width:0}
-.barra__acciones .btn--cancion span,.barra__acciones .btn--capa span{overflow:hidden;text-overflow:ellipsis}
 
 .btn{
-  display:inline-flex;align-items:center;gap:7px;
-  height:36px;padding:0 13px;border-radius:var(--radio);
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:36px;padding:7px 13px;border-radius:var(--radio);
   background:var(--carbon-alto);border:1px solid var(--granito);
   font-size:13px;font-weight:500;white-space:nowrap;
   transition:background .15s ease,border-color .15s ease;
@@ -96,10 +95,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn[aria-pressed="true"] .btn__punto{background:#1A1204}
 .btn__icono{flex-shrink:0}
 
-.btn--cancion{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
+.btn--cancion{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600;white-space:normal;line-height:1.25;text-align:left}
 .btn--cancion:hover{background:#F0B155;border-color:#F0B155}
+.btn__icono-caja{
+  display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+  width:24px;height:24px;border-radius:5px;background:rgba(26,18,4,.22);
+}
 
-.btn--capa{border-color:var(--senal);box-shadow:0 0 0 1px rgba(232,163,61,.25) inset}
+.btn--capa{border-color:var(--senal);box-shadow:0 0 0 1px rgba(232,163,61,.25) inset;white-space:nowrap}
 .btn--capa .btn__icono{color:var(--senal)}
 .btn--capa:hover{background:var(--senal-suave)}
 
@@ -269,8 +272,10 @@ body.modo-anadir .tira__ayuda{display:block}
   </div>
   <div class="barra__acciones">
     <button id="btn-cancion" class="btn btn--cancion" aria-pressed="false">
-      <svg id="icono-nota" class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      <svg id="icono-pausa" class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true" hidden><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <span class="btn__icono-caja">
+        <svg id="icono-nota" class="btn__icono" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <svg id="icono-pausa" class="btn__icono" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </span>
       <span id="cancion-etiqueta">La Adrada, Estamos Contigo</span>
     </button>
     <button id="btn-capa" class="btn btn--capa" aria-pressed="false">
@@ -520,8 +525,8 @@ body.modo-anadir .tira__ayuda{display:block}
   function sincronizarBotonCancion(){
     var sonando = !audioCancion.paused;
     btnCancion.setAttribute("aria-pressed", String(sonando));
-    iconoNota.hidden = sonando;
-    iconoPausa.hidden = !sonando;
+    iconoNota.style.display = sonando ? "none" : "";
+    iconoPausa.style.display = sonando ? "" : "none";
   }
   btnCancion.addEventListener("click", function(){
     if (audioCancion.paused) audioCancion.play();
