@@ -243,6 +243,28 @@ const ZONAS = [
     videos: [
       { src: "videos/perrera.mp4" }
     ]
+  },
+
+  {
+    id: 27,
+    nombre: "Constitución / Góngora",
+    fecha: "2026-07-27",
+    autor: "María",
+    coords: [40.3033, -4.63267],
+    videos: [
+      { src: "videos/gongora.mp4" }
+    ]
+  },
+
+  {
+    id: 28,
+    nombre: "Pico Blanco",
+    fecha: "2026-07-27",
+    autor: "María",
+    coords: [40.30393, -4.64138],
+    videos: [
+      { src: "videos/picoblanco.mp4" }
+    ]
   }
 
 ];
