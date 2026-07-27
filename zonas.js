@@ -29,7 +29,8 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.30361, -4.63076],
     videos: [
-      { src: "videos/piscina-la-nava.mp4" }
+      { src: "videos/piscina-la-nava.mp4" },
+      { src: "videos/calderon2.mp4", autor: "María" }
     ]
   },
 
@@ -160,7 +161,8 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.30231, -4.64368],
     videos: [
-      { src: "videos/alegria.mp4" }
+      { src: "videos/alegria.mp4" },
+      { src: "videos/alegria2.mp4", autor: "María" }
     ]
   },
 
@@ -179,7 +181,9 @@ const ZONAS = [
     nombre: "El Chorrillo",
     fecha: "2026-07-26",
     coords: [40.30479, -4.6314],
-    videos: []
+    videos: [
+      { src: "videos/chorrillo.mp4" }
+    ]
   },
 
   {
@@ -265,6 +269,17 @@ const ZONAS = [
     coords: [40.30393, -4.64138],
     videos: [
       { src: "videos/picoblanco.mp4" }
+    ]
+  },
+
+  {
+    id: 29,
+    nombre: "La Picota",
+    fecha: "2026-07-27",
+    autor: "María",
+    coords: [40.2985, -4.62699],
+    videos: [
+      { src: "videos/picota.mp4" }
     ]
   }
 
