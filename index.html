@@ -92,6 +92,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn[aria-pressed="true"]{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
 .btn__punto{width:7px;height:7px;border-radius:50%;background:var(--senal);flex-shrink:0}
 .btn[aria-pressed="true"] .btn__punto{background:#1A1204}
+.btn__icono{flex-shrink:0}
+
+.btn--cancion{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600}
+.btn--cancion:hover{background:#F0B155;border-color:#F0B155}
+
+.btn--capa{border-color:var(--senal);box-shadow:0 0 0 1px rgba(232,163,61,.25) inset}
+.btn--capa .btn__icono{color:var(--senal)}
+.btn--capa:hover{background:var(--senal-suave)}
 
 /* ---------- Lista de zonas ---------- */
 .lista{
@@ -257,11 +265,20 @@ body.modo-anadir .tira__ayuda{display:block}
     <h1>La Adrada · Resumen de la Situación Actual</h1>
   </div>
   <div class="barra__acciones">
-    <button id="btn-cancion" class="btn">Canción del pueblo</button>
-    <button id="btn-capa" class="btn" aria-pressed="false">Satélite</button>
+    <button id="btn-cancion" class="btn btn--cancion" aria-pressed="false">
+      <svg id="icono-nota" class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      <svg id="icono-pausa" class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true" hidden><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      <span id="cancion-etiqueta">La Adrada, Estamos Contigo</span>
+    </button>
+    <button id="btn-capa" class="btn btn--capa" aria-pressed="false">
+      <svg class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <span>Satélite</span>
+    </button>
     <button id="btn-lista" class="btn solo-movil" aria-expanded="false">Zonas <span class="mono" id="cuenta">0</span></button>
   </div>
 </header>
+
+<audio id="audio-cancion" src="videos/la-adrada-estamos-contigo.mp3" loop preload="none"></audio>
 
 <div id="mapa"></div>
 
@@ -332,10 +349,11 @@ body.modo-anadir .tira__ayuda{display:block}
   });
 
   var btnCapa = document.getElementById("btn-capa");
+  var etiquetaCapa = btnCapa.querySelector("span");
   btnCapa.addEventListener("click", function(){
     var aSat = !mapa.hasLayer(capaSat);
-    if (aSat) { mapa.removeLayer(capaMapa); capaSat.addTo(mapa); btnCapa.textContent = "Mapa"; }
-    else      { mapa.removeLayer(capaSat); capaMapa.addTo(mapa); btnCapa.textContent = "Satélite"; }
+    if (aSat) { mapa.removeLayer(capaMapa); capaSat.addTo(mapa); etiquetaCapa.textContent = "Mapa"; }
+    else      { mapa.removeLayer(capaSat); capaMapa.addTo(mapa); etiquetaCapa.textContent = "Satélite"; }
     btnCapa.setAttribute("aria-pressed", String(aSat));
   });
 
@@ -490,24 +508,26 @@ body.modo-anadir .tira__ayuda{display:block}
   }
   document.getElementById("panel-cerrar").addEventListener("click", cerrarPanel);
 
-  /* ---------- Canción del pueblo ---------- */
-  function abrirCancion(){
-    if (activa !== null && marcadores[activa]) marcar(activa, false);
-    activa = null;
+  /* ---------- Canción del pueblo (suena de fondo, no se corta al ver vídeos) ---------- */
+  var audioCancion = document.getElementById("audio-cancion");
+  var btnCancion = document.getElementById("btn-cancion");
+  var iconoNota = document.getElementById("icono-nota");
+  var iconoPausa = document.getElementById("icono-pausa");
 
-    document.getElementById("panel-paraje").textContent = "Canción del pueblo";
-    document.getElementById("panel-nombre").textContent = "La Adrada, Estamos Contigo";
-    cuerpo.innerHTML =
-      '<div class="clip"><video controls preload="metadata" playsinline ' +
-      'src="videos/la-adrada-estamos-contigo.mp4"></video></div>';
-
-    panel.classList.add("abierto");
-    panel.setAttribute("aria-hidden", "false");
-    cerrarLista();
-    if (history.replaceState) history.replaceState(null, "", "#cancion");
-    document.getElementById("panel-cerrar").focus();
-  }
-  document.getElementById("btn-cancion").addEventListener("click", abrirCancion);
+  btnCancion.addEventListener("click", function(){
+    if (audioCancion.paused) audioCancion.play();
+    else audioCancion.pause();
+  });
+  audioCancion.addEventListener("play", function(){
+    btnCancion.setAttribute("aria-pressed", "true");
+    iconoNota.hidden = true;
+    iconoPausa.hidden = false;
+  });
+  audioCancion.addEventListener("pause", function(){
+    btnCancion.setAttribute("aria-pressed", "false");
+    iconoNota.hidden = false;
+    iconoPausa.hidden = true;
+  });
 
   /* ---------- Lista en móvil ---------- */
   var lista = document.getElementById("lista");
@@ -585,7 +605,6 @@ body.modo-anadir .tira__ayuda{display:block}
 
   var enlazada = (location.hash.match(/z=(\d+)/) || [])[1];
   if (enlazada) abrir(Number(enlazada));
-  else if (location.hash === "#cancion") abrirCancion();
 
   function esc(s){
     return String(s == null ? "" : s)
