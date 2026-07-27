@@ -257,6 +257,7 @@ body.modo-anadir .tira__ayuda{display:block}
     <h1>La Adrada · Resumen de la Situación Actual</h1>
   </div>
   <div class="barra__acciones">
+    <button id="btn-cancion" class="btn">Canción del pueblo</button>
     <button id="btn-capa" class="btn" aria-pressed="false">Satélite</button>
     <button id="btn-lista" class="btn solo-movil" aria-expanded="false">Zonas <span class="mono" id="cuenta">0</span></button>
   </div>
@@ -489,6 +490,25 @@ body.modo-anadir .tira__ayuda{display:block}
   }
   document.getElementById("panel-cerrar").addEventListener("click", cerrarPanel);
 
+  /* ---------- Canción del pueblo ---------- */
+  function abrirCancion(){
+    if (activa !== null && marcadores[activa]) marcar(activa, false);
+    activa = null;
+
+    document.getElementById("panel-paraje").textContent = "Canción del pueblo";
+    document.getElementById("panel-nombre").textContent = "La Adrada, Estamos Contigo";
+    cuerpo.innerHTML =
+      '<div class="clip"><video controls preload="metadata" playsinline ' +
+      'src="videos/la-adrada-estamos-contigo.mp4"></video></div>';
+
+    panel.classList.add("abierto");
+    panel.setAttribute("aria-hidden", "false");
+    cerrarLista();
+    if (history.replaceState) history.replaceState(null, "", "#cancion");
+    document.getElementById("panel-cerrar").focus();
+  }
+  document.getElementById("btn-cancion").addEventListener("click", abrirCancion);
+
   /* ---------- Lista en móvil ---------- */
   var lista = document.getElementById("lista");
   var btnLista = document.getElementById("btn-lista");
@@ -565,6 +585,7 @@ body.modo-anadir .tira__ayuda{display:block}
 
   var enlazada = (location.hash.match(/z=(\d+)/) || [])[1];
   if (enlazada) abrir(Number(enlazada));
+  else if (location.hash === "#cancion") abrirCancion();
 
   function esc(s){
     return String(s == null ? "" : s)
