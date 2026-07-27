@@ -79,7 +79,9 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .barra h1{font-size:17px;line-height:1.2;white-space:nowrap}
 .barra__marca{min-width:0;overflow:hidden}
-.barra__acciones{margin-left:auto;display:flex;gap:8px;flex-shrink:0}
+.barra__acciones{margin-left:auto;display:flex;gap:8px;flex-shrink:0;width:min(460px,46vw)}
+.barra__acciones .btn--cancion,.barra__acciones .btn--capa{flex:1 1 0;min-width:0}
+.barra__acciones .btn--cancion span,.barra__acciones .btn--capa span{overflow:hidden;text-overflow:ellipsis}
 
 .btn{
   display:inline-flex;align-items:center;gap:7px;
@@ -237,6 +239,7 @@ body.modo-anadir .tira__ayuda{display:block}
   :root{--barra-alto:56px}
   .solo-movil{display:inline-flex}
   .barra h1{font-size:15px;white-space:normal}
+  .barra__acciones{width:auto}
   .lista{
     top:auto;bottom:var(--tira-alto);width:100%;max-height:62vh;
     border-right:0;border-top:1px solid var(--granito);
@@ -514,20 +517,19 @@ body.modo-anadir .tira__ayuda{display:block}
   var iconoNota = document.getElementById("icono-nota");
   var iconoPausa = document.getElementById("icono-pausa");
 
+  function sincronizarBotonCancion(){
+    var sonando = !audioCancion.paused;
+    btnCancion.setAttribute("aria-pressed", String(sonando));
+    iconoNota.hidden = sonando;
+    iconoPausa.hidden = !sonando;
+  }
   btnCancion.addEventListener("click", function(){
     if (audioCancion.paused) audioCancion.play();
     else audioCancion.pause();
   });
-  audioCancion.addEventListener("play", function(){
-    btnCancion.setAttribute("aria-pressed", "true");
-    iconoNota.hidden = true;
-    iconoPausa.hidden = false;
-  });
-  audioCancion.addEventListener("pause", function(){
-    btnCancion.setAttribute("aria-pressed", "false");
-    iconoNota.hidden = false;
-    iconoPausa.hidden = true;
-  });
+  audioCancion.addEventListener("play", sincronizarBotonCancion);
+  audioCancion.addEventListener("pause", sincronizarBotonCancion);
+  sincronizarBotonCancion();
 
   /* ---------- Lista en móvil ---------- */
   var lista = document.getElementById("lista");
