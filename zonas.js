@@ -1,4 +1,4 @@
-﻿/* Generado con editor.html — La Adrada, vídeos del incendio.
+/* Generado con editor.html — La Adrada, vídeos del incendio.
    Puedes seguir editando a mano; el formato es JavaScript normal. */
 
 const ZONAS = [
@@ -49,7 +49,8 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.30784, -4.63346],
     videos: [
-      { src: "videos/via-moreras.mp4" }
+      { src: "videos/via-moreras.mp4" },
+      { src: "videos/via.mp4" }
     ]
   },
 
@@ -172,7 +173,6 @@ const ZONAS = [
     ]
   },
 
-
   {
     id: 19,
     nombre: "El Chorrillo",
@@ -220,6 +220,28 @@ const ZONAS = [
     coords: [40.30317, -4.64034],
     videos: [
       { src: "videos/elcauce.mp4" }
+    ]
+  },
+
+  {
+    id: 25,
+    nombre: "Urb. Ana",
+    fecha: "2026-07-27",
+    autor: "María",
+    coords: [40.29931, -4.62937],
+    videos: [
+      { src: "videos/ana.mp4" }
+    ]
+  },
+
+  {
+    id: 26,
+    nombre: "Martinete / Perrera",
+    fecha: "2026-07-27",
+    autor: "María",
+    coords: [40.31493, -4.64355],
+    videos: [
+      { src: "videos/perrera.mp4" }
     ]
   }
 
