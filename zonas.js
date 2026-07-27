@@ -281,6 +281,17 @@ const ZONAS = [
     videos: [
       { src: "videos/picota.mp4" }
     ]
+  },
+
+  {
+    id: 30,
+    nombre: "Carretera",
+    fecha: "2026-07-27",
+    autor: "Rubén Rua",
+    coords: [40.31455, -4.67279],
+    videos: [
+      { src: "videos/carretera.mp4" }
+    ]
   }
 
 ];
