@@ -290,9 +290,9 @@ const ZONAS = [
       { src: "videos/picota.mp4" }
     ],
     fotos: [
-      { src: "videos/picota1.jpg" },
-      { src: "videos/picota2.jpg" },
-      { src: "videos/picota3.jpg" }
+      { src: "videos/picota1.jpg", autor: "Aitor" },
+      { src: "videos/picota2.jpg", autor: "Aitor" },
+      { src: "videos/picota3.jpg", autor: "Aitor" }
     ]
   },
 
