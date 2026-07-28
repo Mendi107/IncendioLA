@@ -419,6 +419,15 @@ const ZONAS = [
     videos: [
       { src: "videos/28navalpino.mp4" }
     ]
+  },
+
+  {
+    id: 9012,
+    nombre: "Posible reactivación",
+    fecha: "2026-07-28",
+    tipo: "reactivacion",
+    coords: [40.30428, -4.65511],
+    videos: []
   }
 
 ];
