@@ -25,6 +25,7 @@
   --senal:#E8A33D;
   --senal-suave:rgba(232,163,61,.16);
   --pino:#5C8060;
+  --azul:#3D7DCA;
   --radio:3px;
   --sombra:0 12px 40px rgba(0,0,0,.45);
   --barra-alto:64px;
@@ -129,6 +130,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .btn--capa .btn__icono{color:var(--senal)}
 .btn--capa:hover{background:var(--senal-suave)}
 
+.barra__acciones .btn--capas{flex:0 0 auto;width:min(104px,20vw)}
+.btn--capas{border-color:var(--azul);box-shadow:0 0 0 1px rgba(61,125,202,.25) inset,0 3px 0 rgba(0,0,0,.35),0 4px 10px rgba(0,0,0,.3);white-space:nowrap}
+.btn--capas:active{box-shadow:0 0 0 1px rgba(61,125,202,.25) inset,0 0 0 rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.25)}
+.btn--capas .btn__icono{color:var(--azul)}
+.btn--capas:hover{background:rgba(61,125,202,.14)}
+.btn--capas[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#EAF2FA;font-weight:600}
+.btn--capas[aria-pressed="true"] .btn__icono{color:#EAF2FA}
+
+.capas{
+  position:fixed;z-index:900;top:calc(var(--barra-alto) + 8px);right:16px;
+  width:260px;max-width:calc(100vw - 32px);
+  background:var(--carbon-alto);border:1px solid var(--granito);border-radius:var(--radio);
+  box-shadow:var(--sombra);padding:14px 16px;
+}
+.capas h3{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ceniza);margin-bottom:8px}
+.capas__item{
+  display:flex;align-items:center;gap:9px;padding:7px 0;font-size:13.5px;cursor:pointer;
+}
+.capas__item input{accent-color:var(--senal);width:15px;height:15px;flex-shrink:0}
+.capas__punto{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.capas__punto--videos{background:var(--senal);border-radius:50%}
+.capas__punto--alertas{background:#C1443A;border-radius:50%}
+.capas__punto--servicio{background:var(--azul)}
+.capas__cuenta{margin-left:auto;color:var(--ceniza);font-size:11.5px}
+
 /* ---------- Lista de zonas ---------- */
 .lista{
   position:fixed;z-index:500;top:var(--barra-alto);left:0;bottom:var(--tira-alto);width:300px;
@@ -150,6 +176,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .zona__num{
   font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
   color:var(--senal);padding-top:2px;
+}
+.zona__icono{
+  width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  color:var(--azul);flex-shrink:0;
+}
+.lista__subcab{
+  padding:12px 18px 6px;margin-top:4px;border-top:1px solid var(--granito);
+  font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--ceniza);
 }
 .zona__nombre{display:block;font-weight:500;font-size:14px;line-height:1.35}
 .zona__meta{display:block;margin-top:3px;font-size:11.5px;color:var(--ceniza);font-family:"IBM Plex Mono",monospace}
@@ -175,6 +209,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .panel__cerrar:hover{background:var(--granito)}
 .panel__cuerpo{overflow-y:auto;padding:16px 18px 26px;flex:1}
 .panel__desc{margin:0 0 18px;font-size:14px;color:#CFC9C0}
+.panel__contacto{margin:0 0 8px;font-size:14px}
+.panel__contacto a{color:var(--senal)}
 .panel__coord{margin:10px 0 0;font-size:11.5px;color:var(--ceniza)}
 
 .clip{margin-bottom:22px}
@@ -248,6 +284,16 @@ body.modo-anadir .tira__ayuda{display:block}
   transform:scale(1.12);
 }
 .marcador--vacio{background:var(--granito);color:var(--ceniza);box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.marcador--servicio{
+  border-radius:7px;background:var(--azul);color:#EAF2FA;
+  box-shadow:0 0 0 5px rgba(61,125,202,.22),0 2px 8px rgba(0,0,0,.5);
+}
+.marcador--servicio svg{display:block}
+.marcador--servicio.marcador--activo{box-shadow:0 0 0 10px rgba(61,125,202,.3),0 2px 10px rgba(0,0,0,.5)}
+.marcador--sanidad{background:#F5F1E8;color:#D7362B}
+.marcador--sanidad.marcador--activo{box-shadow:0 0 0 10px rgba(215,54,43,.25),0 2px 10px rgba(0,0,0,.5)}
+.marcador--simbolo{background:transparent;border:0;box-shadow:0 2px 6px rgba(0,0,0,.45)}
+.marcador--simbolo svg{display:block}
 .marcador--alerta{
   background:#C1443A;color:#fff;font-size:14px;
   box-shadow:0 0 0 5px rgba(193,68,58,.28),0 2px 8px rgba(0,0,0,.5);
@@ -265,7 +311,7 @@ body.modo-anadir .tira__ayuda{display:block}
   :root{--barra-alto:56px}
   .solo-movil{display:inline-flex}
   .barra h1{font-size:15px;white-space:normal}
-  .barra__acciones{width:auto}
+  .barra__acciones{width:auto;flex-wrap:wrap;justify-content:flex-end;row-gap:6px}
   .lista{
     top:auto;bottom:var(--tira-alto);width:100%;max-height:62vh;
     border-right:0;border-top:1px solid var(--granito);
@@ -309,9 +355,18 @@ body.modo-anadir .tira__ayuda{display:block}
       <svg class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
       <span>Satélite</span>
     </button>
+    <button id="btn-capas" class="btn btn--capas" aria-pressed="false" hidden>
+      <svg class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      <span>Capas</span>
+    </button>
     <button id="btn-lista" class="btn solo-movil" aria-expanded="false">Zonas <span class="mono" id="cuenta">0</span></button>
   </div>
 </header>
+
+<div class="capas" id="panel-capas" hidden>
+  <h3>Mostrar en el mapa</h3>
+  <div id="capas-lista"></div>
+</div>
 
 <audio id="audio-cancion" src="videos/la-adrada-estamos-contigo.mp3" loop preload="none"></audio>
 
@@ -383,6 +438,44 @@ body.modo-anadir .tira__ayuda{display:block}
     attribution: "Imágenes: Esri, Maxar, Earthstar Geographics"
   });
 
+  var capaVideos = L.layerGroup().addTo(mapa);
+  var capaAlertas = L.layerGroup().addTo(mapa);
+  var capasServicio = {};
+
+  var CATEGORIAS = {
+    ayuntamiento: {
+      etiqueta: "Ayuntamiento",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8h18z"/><line x1="5" y1="10" x2="5" y2="18"/><line x1="9" y1="10" x2="9" y2="18"/><line x1="15" y1="10" x2="15" y2="18"/><line x1="19" y1="10" x2="19" y2="18"/><line x1="3" y1="21" x2="21" y2="21"/></svg>'
+    },
+    sanidad: {
+      etiqueta: "Centro médico",
+      claseMarcador: " marcador--servicio marcador--sanidad",
+      icono: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7z"/></svg>'
+    },
+    policia: {
+      etiqueta: "Policía",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 2 4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5z"/></svg>'
+    },
+    "proteccion-civil": {
+      etiqueta: "Protección Civil",
+      claseMarcador: " marcador--simbolo",
+      icono: '<svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="11" fill="#F2A93B"/><polygon points="12,5.3 19.2,18.6 4.8,18.6" fill="#1E5FA8"/></svg>'
+    },
+    turismo: {
+      etiqueta: "Punto de interés turístico",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><circle cx="12" cy="7" r="1.8"/><rect x="10.2" y="11" width="3.6" height="9" rx="1"/></svg>'
+    }
+  };
+  function iconoCategoria(cat){
+    return (CATEGORIAS[cat] && CATEGORIAS[cat].icono) || CATEGORIAS.turismo.icono;
+  }
+  function claseCategoria(cat){
+    return (CATEGORIAS[cat] && CATEGORIAS[cat].claseMarcador) || " marcador--servicio";
+  }
+
   var btnCapa = document.getElementById("btn-capa");
   var etiquetaCapa = btnCapa.querySelector("span");
   btnCapa.addEventListener("click", function(){
@@ -394,14 +487,23 @@ body.modo-anadir .tira__ayuda{display:block}
 
   /* ---------- Marcadores y perímetros ---------- */
   var marcadores = {};
+  var marcadoresServicio = [];
   var elementosLista = {};
   var indice = 0;
 
+  function etiquetaServicio(z){
+    return z.nombre + " · " + z.coords[0].toFixed(5) + ", " + z.coords[1].toFixed(5);
+  }
+
+  var zonasFuego = zonas.filter(function(z){ return !z.categoria; });
+  var zonasServicio = zonas.filter(function(z){ return z.categoria; });
+
   zonas.forEach(function(z){
-    indice++;
-    var n = indice;
     var esAlerta = z.tipo === "reactivacion";
+    var esServicio = !!z.categoria;
     var conVideo = Array.isArray(z.videos) && z.videos.length > 0;
+    var n = null;
+    if (!esServicio) { indice++; n = indice; }
 
     if (Array.isArray(z.area) && z.area.length > 2) {
       L.polygon(z.area, {
@@ -410,8 +512,8 @@ body.modo-anadir .tira__ayuda{display:block}
       }).addTo(mapa);
     }
 
-    var claseMarcador = esAlerta ? " marcador--alerta" : (conVideo ? "" : " marcador--vacio");
-    var contenidoMarcador = esAlerta ? "🔥" : n;
+    var claseMarcador = esAlerta ? " marcador--alerta" : esServicio ? claseCategoria(z.categoria) : (conVideo ? "" : " marcador--vacio");
+    var contenidoMarcador = esAlerta ? "🔥" : esServicio ? iconoCategoria(z.categoria) : n;
     var icono = L.divIcon({
       className: "marcador-caja",
       html: '<div class="marcador' + claseMarcador + '">' + contenidoMarcador + "</div>",
@@ -419,10 +521,34 @@ body.modo-anadir .tira__ayuda{display:block}
       iconAnchor: [15, 15]
     });
 
-    var m = L.marker(z.coords, { icon: icono, title: z.nombre, keyboard: true }).addTo(mapa);
-    m.bindTooltip(z.nombre, { className: "etiqueta", direction: "top", offset: [0, -16] });
+    var destino;
+    if (esServicio) {
+      if (!capasServicio[z.categoria]) capasServicio[z.categoria] = L.layerGroup().addTo(mapa);
+      destino = capasServicio[z.categoria];
+    } else if (esAlerta) {
+      destino = capaAlertas;
+    } else {
+      destino = capaVideos;
+    }
+
+    var m = L.marker(z.coords, { icon: icono, title: z.nombre, keyboard: true, draggable: esServicio }).addTo(destino);
+    if (esServicio) {
+      m.dragging.disable();
+      m.bindTooltip(etiquetaServicio(z), { className: "etiqueta", direction: "top", offset: [0, -16] });
+      m.on("dragend", function(){
+        var ll = m.getLatLng();
+        z.coords = [ll.lat, ll.lng];
+        m.setTooltipContent(etiquetaServicio(z)).openTooltip();
+        if (activa === z.id) abrir(z.id);
+      });
+      marcadoresServicio.push(m);
+    } else {
+      m.bindTooltip(z.nombre, { className: "etiqueta", direction: "top", offset: [0, -16] });
+    }
     m.on("click", function(){ abrir(z.id); });
     marcadores[z.id] = m;
+
+    if (esServicio) return;
 
     var metaTexto = esAlerta
       ? "posible reactivación"
@@ -445,11 +571,78 @@ body.modo-anadir .tira__ayuda{display:block}
     elementosLista[z.id] = btn;
   });
 
-  var conVideoTotal = zonas.filter(function(z){ return z.videos && z.videos.length; }).length;
-  var alertaTotal = zonas.filter(function(z){ return z.tipo === "reactivacion"; }).length;
-  document.getElementById("cuenta").textContent = zonas.length;
-  document.getElementById("resumen").textContent = zonas.length
-    ? zonas.length + (zonas.length === 1 ? " punto" : " puntos") + " · " + conVideoTotal + " con vídeo" +
+  if (zonasServicio.length) {
+    var subcab = document.createElement("li");
+    subcab.className = "lista__subcab";
+    subcab.textContent = "Servicios y puntos de interés";
+    document.getElementById("items").appendChild(subcab);
+
+    zonasServicio.forEach(function(z){
+      var li = document.createElement("li");
+      var btn = document.createElement("button");
+      btn.className = "zona";
+      btn.innerHTML =
+        '<span class="zona__icono">' + iconoCategoria(z.categoria) + "</span>" +
+        '<span><span class="zona__nombre">' + esc(z.nombre) + "</span>" +
+        '<span class="zona__meta">' + esc(CATEGORIAS[z.categoria] ? CATEGORIAS[z.categoria].etiqueta : "") + "</span></span>";
+      btn.addEventListener("click", function(){ abrir(z.id); });
+      li.appendChild(btn);
+      document.getElementById("items").appendChild(li);
+      elementosLista[z.id] = btn;
+    });
+
+  }
+
+  /* ---------- Panel de capas ---------- */
+  var btnCapas = document.getElementById("btn-capas");
+  var panelCapas = document.getElementById("panel-capas");
+
+  (function construirPanelCapas(){
+    var cont = document.getElementById("capas-lista");
+    var nVideos = zonasFuego.filter(function(z){ return z.tipo !== "reactivacion"; }).length;
+    var nAlertas = zonasFuego.filter(function(z){ return z.tipo === "reactivacion"; }).length;
+    var filas = [];
+    if (nVideos) filas.push({ etiqueta: "Vídeos documentados", cuenta: nVideos, capa: capaVideos, punto: "videos" });
+    if (nAlertas) filas.push({ etiqueta: "Posible reactivación", cuenta: nAlertas, capa: capaAlertas, punto: "alertas" });
+    Object.keys(capasServicio).forEach(function(cat){
+      var n = zonasServicio.filter(function(z){ return z.categoria === cat; }).length;
+      filas.push({ etiqueta: (CATEGORIAS[cat] && CATEGORIAS[cat].etiqueta) || cat, cuenta: n, capa: capasServicio[cat], punto: "servicio" });
+    });
+
+    if (!filas.length) return;
+    btnCapas.hidden = false;
+
+    filas.forEach(function(f){
+      var label = document.createElement("label");
+      label.className = "capas__item";
+      label.innerHTML =
+        '<input type="checkbox" checked>' +
+        '<span class="capas__punto capas__punto--' + f.punto + '"></span>' +
+        "<span>" + esc(f.etiqueta) + "</span>" +
+        '<span class="capas__cuenta mono">' + f.cuenta + "</span>";
+      label.querySelector("input").addEventListener("change", function(){
+        if (this.checked) f.capa.addTo(mapa); else mapa.removeLayer(f.capa);
+      });
+      cont.appendChild(label);
+    });
+  })();
+
+  btnCapas.addEventListener("click", function(){
+    var abierto = panelCapas.hidden;
+    panelCapas.hidden = !abierto;
+    btnCapas.setAttribute("aria-pressed", String(abierto));
+  });
+  document.addEventListener("click", function(e){
+    if (panelCapas.hidden || panelCapas.contains(e.target) || btnCapas.contains(e.target)) return;
+    panelCapas.hidden = true;
+    btnCapas.setAttribute("aria-pressed", "false");
+  });
+
+  var conVideoTotal = zonasFuego.filter(function(z){ return z.videos && z.videos.length; }).length;
+  var alertaTotal = zonasFuego.filter(function(z){ return z.tipo === "reactivacion"; }).length;
+  document.getElementById("cuenta").textContent = zonasFuego.length;
+  document.getElementById("resumen").textContent = zonasFuego.length
+    ? zonasFuego.length + (zonasFuego.length === 1 ? " punto" : " puntos") + " · " + conVideoTotal + " con vídeo" +
       (alertaTotal ? " · " + alertaTotal + " en alerta" : "")
     : "Todavía no hay ninguna zona. Añádelas en zonas.js.";
 
@@ -473,15 +666,22 @@ body.modo-anadir .tira__ayuda{display:block}
     marcar(id, true);
 
     var esAlerta = z.tipo === "reactivacion";
+    var esServicio = !!z.categoria;
 
-    document.getElementById("panel-paraje").textContent = z.paraje || "";
+    document.getElementById("panel-paraje").textContent = esServicio
+      ? (CATEGORIAS[z.categoria] ? CATEGORIAS[z.categoria].etiqueta : "")
+      : (z.paraje || "");
     document.getElementById("panel-nombre").textContent = z.nombre;
 
     var html = "";
     if (esAlerta) html += '<p class="alerta-etiqueta">🔥 Posible reactivación</p>';
     if (z.descripcion) html += '<p class="panel__desc">' + esc(z.descripcion) + "</p>";
 
-    if (z.videos && z.videos.length) {
+    if (esServicio) {
+      if (z.direccion) html += '<p class="panel__desc">' + esc(z.direccion) + "</p>";
+      if (z.telefono) html += '<p class="panel__contacto"><a href="tel:' + esc(z.telefono.replace(/\s+/g, "")) + '">' + esc(z.telefono) + "</a></p>";
+      if (z.web) html += '<p class="panel__contacto"><a href="' + esc(z.web) + '" target="_blank" rel="noopener">' + esc(z.web.replace(/^https?:\/\//, "")) + "</a></p>";
+    } else if (z.videos && z.videos.length) {
       z.videos.forEach(function(v, i){
         html += '<div class="clip"><div class="clip__cab">' +
                 '<span class="clip__titulo">' + esc(v.titulo || ("Vídeo " + (i + 1))) + "</span>" +
@@ -594,6 +794,9 @@ body.modo-anadir .tira__ayuda{display:block}
     var c = mapa.getContainer();
     c.style.cursor = modo ? "crosshair" : "";
     if (!modo) captura.hidden = true;
+    marcadoresServicio.forEach(function(m){
+      if (modo) m.dragging.enable(); else m.dragging.disable();
+    });
   });
 
   mapa.on("click", function(e){
@@ -633,6 +836,7 @@ body.modo-anadir .tira__ayuda{display:block}
   document.addEventListener("keydown", function(e){
     if (e.key !== "Escape") return;
     if (!captura.hidden) { captura.hidden = true; return; }
+    if (!panelCapas.hidden) { panelCapas.hidden = true; btnCapas.setAttribute("aria-pressed", "false"); return; }
     if (panel.classList.contains("abierto")) cerrarPanel();
     else cerrarLista();
   });

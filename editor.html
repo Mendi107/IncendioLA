@@ -11,7 +11,7 @@
 <style>
 :root{
   --carbon:#16181A; --carbon-alto:#1E2124; --granito:#2C3136;
-  --hueso:#EDE8E0; --ceniza:#9AA0A6; --senal:#E8A33D; --pino:#5C8060;
+  --hueso:#EDE8E0; --ceniza:#9AA0A6; --senal:#E8A33D; --pino:#5C8060; --azul:#3D7DCA;
   --radio:3px; --barra:56px;
 }
 *{box-sizing:border-box}
@@ -82,6 +82,7 @@ button,input,textarea,select{font:inherit;color:inherit}
   background:rgba(92,128,96,.22);color:#9FC4A3;
 }
 .chip--vacio{background:var(--granito);color:var(--ceniza)}
+.chip--servicio{background:rgba(61,125,202,.22);color:#9FC0E0}
 
 /* Columna derecha: formulario */
 .form{
@@ -143,7 +144,13 @@ textarea{resize:vertical;min-height:64px}
 }
 .marcador--vacio{background:var(--granito);color:var(--ceniza);box-shadow:none}
 .marcador--alerta{background:#C1443A;color:#fff}
+.marcador--servicio{border-radius:6px;background:var(--azul);color:#EAF2FA;box-shadow:0 0 0 4px rgba(61,125,202,.2)}
+.marcador--servicio svg{display:block}
+.marcador--sanidad{background:#F5F1E8;color:#D7362B}
+.marcador--simbolo{background:transparent;border:0;box-shadow:none}
+.marcador--simbolo svg{display:block}
 .marcador--sel{box-shadow:0 0 0 9px rgba(232,163,61,.25);transform:scale(1.12)}
+.marcador--servicio.marcador--sel{box-shadow:0 0 0 9px rgba(61,125,202,.3);transform:scale(1.12)}
 
 @media (max-width:1200px){
   #mapa{left:0;right:0;top:calc(var(--barra) + 0px);bottom:45%}
@@ -221,6 +228,40 @@ textarea{resize:vertical;min-height:64px}
     return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
       .replace(/>/g,"&gt;").replace(/"/g,"&quot;");
   }
+  var CATEGORIAS = {
+    ayuntamiento: {
+      etiqueta: "Ayuntamiento",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8h18z"/><line x1="5" y1="10" x2="5" y2="18"/><line x1="9" y1="10" x2="9" y2="18"/><line x1="15" y1="10" x2="15" y2="18"/><line x1="19" y1="10" x2="19" y2="18"/><line x1="3" y1="21" x2="21" y2="21"/></svg>'
+    },
+    sanidad: {
+      etiqueta: "Centro médico",
+      claseMarcador: " marcador--servicio marcador--sanidad",
+      icono: '<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7z"/></svg>'
+    },
+    policia: {
+      etiqueta: "Policía",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2 4 5v6c0 5.25 3.4 9.74 8 11 4.6-1.26 8-5.75 8-11V5z"/></svg>'
+    },
+    "proteccion-civil": {
+      etiqueta: "Protección Civil",
+      claseMarcador: " marcador--simbolo",
+      icono: '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#F2A93B"/><polygon points="12,5.3 19.2,18.6 4.8,18.6" fill="#1E5FA8"/></svg>'
+    },
+    turismo: {
+      etiqueta: "Punto de interés turístico",
+      claseMarcador: " marcador--servicio",
+      icono: '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><circle cx="12" cy="7" r="1.8"/><rect x="10.2" y="11" width="3.6" height="9" rx="1"/></svg>'
+    }
+  };
+  function iconoCategoria(cat){
+    return (CATEGORIAS[cat] && CATEGORIAS[cat].icono) || CATEGORIAS.turismo.icono;
+  }
+  function claseCategoria(cat){
+    return (CATEGORIAS[cat] && CATEGORIAS[cat].claseMarcador) || " marcador--servicio";
+  }
+
   function zona(id){ return datos.filter(function(z){ return z.id === id; })[0]; }
   function nClips(z){ return (z.videos || []).length; }
   function toca(){ sucio = true; document.getElementById("pendiente").textContent = "cambios sin descargar"; }
@@ -234,14 +275,20 @@ textarea{resize:vertical;min-height:64px}
   function pinta(){
     Object.keys(marcas).forEach(function(k){ mapa.removeLayer(marcas[k]); });
     marcas = {};
-    datos.forEach(function(z, i){
-      var claseAlerta = z.tipo === "reactivacion" ? " marcador--alerta" : (nClips(z) ? "" : " marcador--vacio");
+    var n = 0;
+    datos.forEach(function(z){
+      var esServicio = !!z.categoria;
+      var claseAlerta = z.tipo === "reactivacion" ? " marcador--alerta" : (esServicio ? claseCategoria(z.categoria) : (nClips(z) ? "" : " marcador--vacio"));
+      var contenido;
+      if (z.tipo === "reactivacion") contenido = "🔥";
+      else if (esServicio) contenido = iconoCategoria(z.categoria);
+      else { n++; contenido = n; }
       var m = L.marker(z.coords, {
         draggable: true,
         icon: L.divIcon({
           className: "marcador-caja",
           html: '<div class="marcador' + claseAlerta +
-                (z.id === sel ? " marcador--sel" : "") + '">' + (z.tipo === "reactivacion" ? "🔥" : (i + 1)) + "</div>",
+                (z.id === sel ? " marcador--sel" : "") + '">' + contenido + "</div>",
           iconSize: [28,28], iconAnchor: [14,14]
         })
       }).addTo(mapa);
@@ -285,22 +332,29 @@ textarea{resize:vertical;min-height:64px}
     if (!datos.length) {
       cont.innerHTML = '<div class="vacio">Todavía no hay zonas.</div>';
     }
-    datos.forEach(function(z, i){
+    var n = 0;
+    datos.forEach(function(z){
+      var esServicio = !!z.categoria;
+      var num = esServicio ? iconoCategoria(z.categoria) : String(++n).padStart(2,"0");
       var b = document.createElement("button");
       b.className = "fila";
       if (z.id === sel) b.setAttribute("aria-current", "true");
       b.innerHTML =
-        '<span class="fila__n">' + String(i+1).padStart(2,"0") + "</span>" +
+        '<span class="fila__n">' + num + "</span>" +
         '<span class="fila__t">' + (esc(z.nombre) || "(sin nombre)") +
         "<small>" + z.coords[0].toFixed(4) + ", " + z.coords[1].toFixed(4) + "</small></span>" +
-        '<span class="chip' + (nClips(z) ? "" : " chip--vacio") + '">' +
-        (nClips(z) ? nClips(z) + " vid" : "vacía") + "</span>";
+        (esServicio
+          ? '<span class="chip chip--servicio">' + esc(CATEGORIAS[z.categoria] ? CATEGORIAS[z.categoria].etiqueta : "servicio") + "</span>"
+          : '<span class="chip' + (nClips(z) ? "" : " chip--vacio") + '">' + (nClips(z) ? nClips(z) + " vid" : "vacía") + "</span>");
       b.addEventListener("click", function(){ selecciona(z.id); mapa.panTo(z.coords); });
       cont.appendChild(b);
     });
+    var totalFuego = datos.filter(function(z){ return !z.categoria; }).length;
+    var totalServ = datos.filter(function(z){ return z.categoria; }).length;
     var conV = datos.filter(function(z){ return nClips(z); }).length;
     document.getElementById("col-resumen").textContent =
-      datos.length + (datos.length === 1 ? " zona" : " zonas") + " · " + conV + " con vídeo";
+      totalFuego + (totalFuego === 1 ? " zona" : " zonas") + " · " + conV + " con vídeo" +
+      (totalServ ? " · " + totalServ + " servicios" : "");
   }
 
   function selecciona(id){ sel = id; pinta(); lista(); formulario(); }
@@ -316,24 +370,61 @@ textarea{resize:vertical;min-height:64px}
       return;
     }
     document.getElementById("form-titulo").textContent = "Zona " + z.id;
+    var esServicio = !!z.categoria;
 
-    cuerpo.innerHTML =
-      '<label><span>Nombre de la zona</span><input type="text" data-campo="nombre" value="' + esc(z.nombre) + '" placeholder="Pinar de la Chorrera"></label>' +
-      '<label><span>Paraje / referencia</span><input type="text" data-campo="paraje" value="' + esc(z.paraje) + '" placeholder="Pista forestal, 1,5 km al norte"></label>' +
-      '<div class="dos">' +
-        '<label><span>Fecha</span><input type="date" data-campo="fecha" value="' + esc(z.fecha) + '"></label>' +
-        '<label><span>Autor</span><input type="text" data-campo="autor" value="' + esc(z.autor) + '" placeholder="Quién grabó"></label>' +
-      "</div>" +
-      '<label><span>Tipo</span><select data-campo="tipo">' +
-        '<option value=""' + (z.tipo === "reactivacion" ? "" : " selected") + ">Vídeo</option>" +
-        '<option value="reactivacion"' + (z.tipo === "reactivacion" ? " selected" : "") + ">Posible reactivación</option>" +
-      "</select></label>" +
-      '<label><span>Descripción</span><textarea data-campo="descripcion" placeholder="Qué se ve en el vídeo">' + esc(z.descripcion) + "</textarea></label>" +
-      '<div class="clips"><div class="clips__cab">Vídeos<button class="btn btn--min" id="btn-clip">+ Añadir</button></div>' +
-      '<div id="clips"></div>' +
-      '<div class="suelta" id="suelta">Arrastra aquí los archivos de vídeo para coger sus nombres</div></div>' +
-      '<p class="mono" style="margin:14px 0 0;font-size:11.5px;color:var(--ceniza)">' +
-        z.coords[0].toFixed(5) + ", " + z.coords[1].toFixed(5) + "</p>";
+    var claseHtml =
+      '<label><span>Tipo de punto</span><select id="campo-clase">' +
+        '<option value=""' + (esServicio ? "" : " selected") + ">Zona del incendio (vídeos)</option>" +
+        Object.keys(CATEGORIAS).map(function(c){
+          return '<option value="' + c + '"' + (z.categoria === c ? " selected" : "") + ">" + CATEGORIAS[c].etiqueta + "</option>";
+        }).join("") +
+      "</select></label>";
+
+    if (esServicio) {
+      cuerpo.innerHTML =
+        claseHtml +
+        '<label><span>Nombre</span><input type="text" data-campo="nombre" value="' + esc(z.nombre) + '" placeholder="Ayuntamiento de La Adrada"></label>' +
+        '<label><span>Teléfono</span><input type="text" data-campo="telefono" value="' + esc(z.telefono) + '" placeholder="920 xxx xxx"></label>' +
+        '<label><span>Dirección / horario</span><input type="text" data-campo="direccion" value="' + esc(z.direccion) + '" placeholder="Plaza Mayor, 1 · L-V 9:00-14:00"></label>' +
+        '<label><span>Web</span><input type="text" data-campo="web" value="' + esc(z.web) + '" placeholder="https://..."></label>' +
+        '<label><span>Nota (opcional)</span><textarea data-campo="descripcion" placeholder="Cualquier aclaración">' + esc(z.descripcion) + "</textarea></label>" +
+        '<p class="mono" style="margin:14px 0 0;font-size:11.5px;color:var(--ceniza)">' +
+          z.coords[0].toFixed(5) + ", " + z.coords[1].toFixed(5) + "</p>";
+    } else {
+      cuerpo.innerHTML =
+        claseHtml +
+        '<label><span>Nombre de la zona</span><input type="text" data-campo="nombre" value="' + esc(z.nombre) + '" placeholder="Pinar de la Chorrera"></label>' +
+        '<label><span>Paraje / referencia</span><input type="text" data-campo="paraje" value="' + esc(z.paraje) + '" placeholder="Pista forestal, 1,5 km al norte"></label>' +
+        '<div class="dos">' +
+          '<label><span>Fecha</span><input type="date" data-campo="fecha" value="' + esc(z.fecha) + '"></label>' +
+          '<label><span>Autor</span><input type="text" data-campo="autor" value="' + esc(z.autor) + '" placeholder="Quién grabó"></label>' +
+        "</div>" +
+        '<label><span>Tipo</span><select data-campo="tipo">' +
+          '<option value=""' + (z.tipo === "reactivacion" ? "" : " selected") + ">Vídeo</option>" +
+          '<option value="reactivacion"' + (z.tipo === "reactivacion" ? " selected" : "") + ">Posible reactivación</option>" +
+        "</select></label>" +
+        '<label><span>Descripción</span><textarea data-campo="descripcion" placeholder="Qué se ve en el vídeo">' + esc(z.descripcion) + "</textarea></label>" +
+        '<div class="clips"><div class="clips__cab">Vídeos<button class="btn btn--min" id="btn-clip">+ Añadir</button></div>' +
+        '<div id="clips"></div>' +
+        '<div class="suelta" id="suelta">Arrastra aquí los archivos de vídeo para coger sus nombres</div></div>' +
+        '<p class="mono" style="margin:14px 0 0;font-size:11.5px;color:var(--ceniza)">' +
+          z.coords[0].toFixed(5) + ", " + z.coords[1].toFixed(5) + "</p>";
+    }
+
+    document.getElementById("campo-clase").addEventListener("change", function(){
+      var val = this.value;
+      var eraServicio = !!z.categoria;
+      var esServicioNuevo = !!val;
+      if (esServicioNuevo && !eraServicio) {
+        delete z.paraje; delete z.tipo; delete z.videos; delete z.area;
+      }
+      if (!esServicioNuevo && eraServicio) {
+        delete z.telefono; delete z.direccion; delete z.web;
+        z.videos = z.videos || [];
+      }
+      if (val) z.categoria = val; else delete z.categoria;
+      toca(); formulario(); lista(); pinta();
+    });
 
     Array.prototype.forEach.call(cuerpo.querySelectorAll("[data-campo]"), function(el){
       el.addEventListener("input", function(){
@@ -343,6 +434,8 @@ textarea{resize:vertical;min-height:64px}
         if (el.dataset.campo === "tipo") pinta();
       });
     });
+
+    if (esServicio) return;
 
     document.getElementById("btn-clip").addEventListener("click", function(){
       z.videos = z.videos || [];
@@ -419,32 +512,46 @@ textarea{resize:vertical;min-height:64px}
   /* ---------- exportar ---------- */
   var CABECERA =
     "/* Generado con editor.html — La Adrada, vídeos del incendio.\n" +
-    "   Puedes seguir editando a mano; el formato es JavaScript normal. */\n\n";
+    "   Puedes seguir editando a mano; el formato es JavaScript normal.\n\n" +
+    "   Puntos de servicio (ayuntamiento, centro médico, policía, protección civil,\n" +
+    "   turismo...) usan el mismo array pero con \"categoria\" en vez de \"videos\".\n" +
+    "   No cuentan en el resumen de \"zonas documentadas\": se muestran aparte en el\n" +
+    "   mapa (icono propio, capa con botón \"Servicios\") y en la lista lateral. */\n\n";
 
   function texto(){
     var cuerpo = datos.map(function(z){
+      var esServicio = !!z.categoria;
       var l = [];
       l.push("    id: " + z.id);
       l.push("    nombre: " + JSON.stringify(z.nombre || ""));
-      if (z.paraje) l.push("    paraje: " + JSON.stringify(z.paraje));
-      if (z.fecha) l.push("    fecha: " + JSON.stringify(z.fecha));
-      if (z.autor) l.push("    autor: " + JSON.stringify(z.autor));
+      if (esServicio) {
+        l.push("    categoria: " + JSON.stringify(z.categoria));
+      } else if (z.paraje) {
+        l.push("    paraje: " + JSON.stringify(z.paraje));
+      }
+      if (!esServicio && z.fecha) l.push("    fecha: " + JSON.stringify(z.fecha));
+      if (!esServicio && z.autor) l.push("    autor: " + JSON.stringify(z.autor));
+      if (esServicio && z.telefono) l.push("    telefono: " + JSON.stringify(z.telefono));
+      if (esServicio && z.direccion) l.push("    direccion: " + JSON.stringify(z.direccion));
+      if (esServicio && z.web) l.push("    web: " + JSON.stringify(z.web));
       if (z.descripcion) l.push("    descripcion: " + JSON.stringify(z.descripcion));
-      if (z.tipo) l.push("    tipo: " + JSON.stringify(z.tipo));
+      if (!esServicio && z.tipo) l.push("    tipo: " + JSON.stringify(z.tipo));
       l.push("    coords: [" + z.coords[0] + ", " + z.coords[1] + "]");
-      var vids = (z.videos || []).map(function(v){
-        var p = [];
-        if (v.youtube) p.push("youtube: " + JSON.stringify(v.youtube));
-        else p.push("src: " + JSON.stringify(v.src || ""));
-        if (v.titulo) p.push("titulo: " + JSON.stringify(v.titulo));
-        if (v.autor) p.push("autor: " + JSON.stringify(v.autor));
-        return "      { " + p.join(", ") + " }";
-      });
-      l.push("    videos: " + (vids.length ? "[\n" + vids.join(",\n") + "\n    ]" : "[]"));
-      if (Array.isArray(z.area) && z.area.length > 2) {
-        l.push("    area: [\n" + z.area.map(function(p){
-          return "      [" + p[0] + ", " + p[1] + "]";
-        }).join(",\n") + "\n    ]");
+      if (!esServicio) {
+        var vids = (z.videos || []).map(function(v){
+          var p = [];
+          if (v.youtube) p.push("youtube: " + JSON.stringify(v.youtube));
+          else p.push("src: " + JSON.stringify(v.src || ""));
+          if (v.titulo) p.push("titulo: " + JSON.stringify(v.titulo));
+          if (v.autor) p.push("autor: " + JSON.stringify(v.autor));
+          return "      { " + p.join(", ") + " }";
+        });
+        l.push("    videos: " + (vids.length ? "[\n" + vids.join(",\n") + "\n    ]" : "[]"));
+        if (Array.isArray(z.area) && z.area.length > 2) {
+          l.push("    area: [\n" + z.area.map(function(p){
+            return "      [" + p[0] + ", " + p[1] + "]";
+          }).join(",\n") + "\n    ]");
+        }
       }
       return "  {\n" + l.join(",\n") + "\n  }";
     }).join(",\n\n");
