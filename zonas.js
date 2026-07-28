@@ -288,6 +288,11 @@ const ZONAS = [
     coords: [40.2985, -4.62699],
     videos: [
       { src: "videos/picota.mp4" }
+    ],
+    fotos: [
+      { src: "videos/picota1.jpg" },
+      { src: "videos/picota2.jpg" },
+      { src: "videos/picota3.jpg" }
     ]
   },
 
