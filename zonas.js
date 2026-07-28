@@ -427,15 +427,6 @@ const ZONAS = [
     fecha: "2026-07-28",
     coords: [40.31932, -4.65111],
     videos: []
-  },
-
-  {
-    id: 9014,
-    nombre: "Posible reactivación",
-    fecha: "2026-07-28",
-    tipo: "reactivacion",
-    coords: [40.30428, -4.65511],
-    videos: []
   }
 
 ];
