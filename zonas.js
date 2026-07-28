@@ -372,10 +372,7 @@ const ZONAS = [
     fecha: "2026-07-28",
     tipo: "reactivacion",
     coords: [40.31416, -4.63844],
-    videos: [],
-    fotos: [
-      { src: "videos/react01.jpg" }
-    ]
+    videos: []
   },
 
   {
