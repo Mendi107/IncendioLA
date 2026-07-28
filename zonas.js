@@ -309,7 +309,11 @@ const ZONAS = [
     id: 31,
     nombre: "Castillo de La Adrada",
     categoria: "castillo",
-    coords: [40.29877, -4.64004]
+    descripcion: "Foto provisional; se sustituirá por una propia.",
+    coords: [40.29877, -4.64004],
+    fotos: [
+      { src: "videos/castillo-commons.jpg", autor: "M. Peinado, CC BY 3.0 / Wikimedia Commons" }
+    ]
   },
 
   {
