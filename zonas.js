@@ -394,7 +394,9 @@ const ZONAS = [
     fecha: "2026-07-28",
     autor: "Lopez",
     coords: [40.29611, -4.63967],
-    videos: []
+    videos: [
+      { src: "videos/28pilon.mp4" }
+    ]
   },
 
   {
