@@ -4,10 +4,7 @@
    Puntos de servicio (ayuntamiento, centro médico, policía, protección civil,
    turismo...) usan el mismo array pero con "categoria" en vez de "videos".
    No cuentan en el resumen de "zonas documentadas": se muestran aparte en el
-   mapa (icono propio, capa con botón "Servicios") y en la lista lateral.
-
-   Cualquier zona puede llevar además "fotos" (mismo formato que "videos":
-   { src, autor? }), para cuando hay foto pero no vídeo. */
+   mapa (icono propio, capa con botón "Servicios") y en la lista lateral. */
 
 const ZONAS = [
 
@@ -414,6 +411,17 @@ const ZONAS = [
     coords: [40.29843, -4.6317],
     videos: [
       { src: "videos/27insti.mp4" }
+    ]
+  },
+
+  {
+    id: 9011,
+    nombre: "Navalpino",
+    fecha: "2026-07-28",
+    autor: "María",
+    coords: [40.306, -4.64855],
+    videos: [
+      { src: "videos/28navalpino.mp4" }
     ]
   }
 

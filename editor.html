@@ -563,6 +563,14 @@ textarea{resize:vertical;min-height:64px}
           }).join(",\n") + "\n    ]");
         }
       }
+      var fotos = (z.fotos || []).map(function(f){
+        var p = ["src: " + JSON.stringify(f.src || "")];
+        if (f.autor) p.push("autor: " + JSON.stringify(f.autor));
+        return "      { " + p.join(", ") + " }";
+      });
+      if (fotos.length) {
+        l.push("    fotos: [\n" + fotos.join(",\n") + "\n    ]");
+      }
       return "  {\n" + l.join(",\n") + "\n  }";
     }).join(",\n\n");
     return CABECERA + "const ZONAS = [\n\n" + cuerpo + "\n\n];\n";
