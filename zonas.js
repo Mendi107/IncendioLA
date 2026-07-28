@@ -91,7 +91,8 @@ const ZONAS = [
     autor: "Rafael",
     coords: [40.30773, -4.63534],
     videos: [
-      { src: "videos/2026-07-26-13.mp4" }
+      { src: "videos/2026-07-26-13.mp4" },
+      { src: "videos/28castanos.mp4", autor: "Elena" }
     ]
   },
 
@@ -290,9 +291,9 @@ const ZONAS = [
       { src: "videos/picota.mp4" }
     ],
     fotos: [
-      { src: "videos/picota1.jpg" },
-      { src: "videos/picota2.jpg" },
-      { src: "videos/picota3.jpg" }
+      { src: "videos/picota1.jpg", autor: "Aitor" },
+      { src: "videos/picota2.jpg", autor: "Aitor" },
+      { src: "videos/picota3.jpg", autor: "Aitor" }
     ]
   },
 
@@ -427,6 +428,17 @@ const ZONAS = [
     fecha: "2026-07-28",
     coords: [40.31932, -4.65111],
     videos: []
+  },
+
+  {
+    id: 9015,
+    nombre: "Camino a la Presa",
+    fecha: "2026-07-28",
+    autor: "Rubén Rua",
+    coords: [40.32389, -4.64811],
+    videos: [
+      { src: "videos/28presa.mp4" }
+    ]
   }
 
 ];
