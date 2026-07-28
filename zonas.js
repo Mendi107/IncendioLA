@@ -1,5 +1,10 @@
 /* Generado con editor.html — La Adrada, vídeos del incendio.
-   Puedes seguir editando a mano; el formato es JavaScript normal. */
+   Puedes seguir editando a mano; el formato es JavaScript normal.
+
+   Puntos de servicio (ayuntamiento, centro médico, policía, protección civil,
+   turismo...) usan el mismo array pero con "categoria" en vez de "videos".
+   No cuentan en el resumen de "zonas documentadas": se muestran aparte en el
+   mapa (icono propio, capa con botón "Servicios") y en la lista lateral. */
 
 const ZONAS = [
 
@@ -9,7 +14,8 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.29439, -4.62443],
     videos: [
-      { src: "videos/cole-nuevo.mp4" }
+      { src: "videos/cole-nuevo.mp4" },
+      { src: "videos/cole02.mp4", autor: "María" }
     ]
   },
 
@@ -128,7 +134,8 @@ const ZONAS = [
     fecha: "2026-07-26",
     coords: [40.31103, -4.63812],
     videos: [
-      { src: "videos/2026-07-26-16.mp4" }
+      { src: "videos/2026-07-26-16.mp4" },
+      { src: "videos/castanosd.mp4" }
     ]
   },
 
@@ -203,7 +210,8 @@ const ZONAS = [
     autor: "Juan",
     coords: [40.29981, -4.63994],
     videos: [
-      { src: "videos/depositos.mp4" }
+      { src: "videos/depositos.mp4" },
+      { src: "videos/ana02.mp4" }
     ]
   },
 
@@ -291,6 +299,112 @@ const ZONAS = [
     coords: [40.31455, -4.67279],
     videos: [
       { src: "videos/carretera.mp4" }
+    ]
+  },
+
+  {
+    id: 31,
+    nombre: "Castillo de La Adrada",
+    categoria: "turismo",
+    coords: [40.29877, -4.64004]
+  },
+
+  {
+    id: 32,
+    nombre: "Ermita de la Yedra",
+    categoria: "turismo",
+    coords: [40.30364, -4.63526]
+  },
+
+  {
+    id: 33,
+    nombre: "Iglesia del Salvador",
+    categoria: "turismo",
+    coords: [40.29965, -4.63444]
+  },
+
+  {
+    id: 9001,
+    nombre: "PRUEBA Ayuntamiento",
+    categoria: "ayuntamiento",
+    coords: [40.29963, -4.63643]
+  },
+
+  {
+    id: 9002,
+    nombre: "PRUEBA Centro médico",
+    categoria: "sanidad",
+    coords: [40.30145, -4.63707]
+  },
+
+  {
+    id: 9003,
+    nombre: "PRUEBA Policía",
+    categoria: "policia",
+    coords: [40.30158, -4.63713]
+  },
+
+  {
+    id: 9004,
+    nombre: "PRUEBA Protección Civil",
+    categoria: "proteccion-civil",
+    coords: [40.3003, -4.63923]
+  },
+
+  {
+    id: 9005,
+    nombre: "PRUEBA Turismo",
+    categoria: "turismo",
+    descripcion: "Mirador con vistas al valle.",
+    coords: [40.30198, -4.63548]
+  },
+
+  {
+    id: 9006,
+    nombre: "Sobre los Castaños de la Villa",
+    fecha: "2026-07-28",
+    tipo: "reactivacion",
+    coords: [40.31416, -4.63844],
+    videos: []
+  },
+
+  {
+    id: 9007,
+    nombre: "Puente Nuevo / Gorroneras",
+    fecha: "2026-07-28",
+    coords: [40.29945, -4.66516],
+    videos: [
+      { src: "videos/28puentenuevo.mp4" }
+    ]
+  },
+
+  {
+    id: 9008,
+    nombre: "Carretera / Paraíso / Cabaña",
+    fecha: "2026-07-28",
+    coords: [40.30867, -4.65289],
+    videos: [
+      { src: "videos/27cabanaparaiso.mp4" }
+    ]
+  },
+
+  {
+    id: 9009,
+    nombre: "Pilón",
+    fecha: "2026-07-28",
+    autor: "Lopez",
+    coords: [40.29611, -4.63967],
+    videos: []
+  },
+
+  {
+    id: 9010,
+    nombre: "I.E.S. Sierra del Valle",
+    fecha: "2026-07-28",
+    autor: "María",
+    coords: [40.29843, -4.6317],
+    videos: [
+      { src: "videos/27insti.mp4" }
     ]
   }
 
