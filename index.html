@@ -108,6 +108,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .btn--cancion{background:var(--senal);border-color:var(--senal);color:#1A1204;font-weight:600;white-space:normal;line-height:1.25;text-align:center}
 .btn--cancion:hover{background:#F0B155;border-color:#F0B155}
+
+.btn--descarga{width:36px;padding:0;flex-shrink:0;color:inherit;text-decoration:none}
 .btn__icono-caja{
   display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
   width:24px;height:24px;border-radius:5px;background:rgba(26,18,4,.22);
@@ -291,6 +293,9 @@ body.modo-anadir .tira__ayuda{display:block}
       </span>
       <span id="cancion-etiqueta">La Adrada, Estamos Contigo</span>
     </button>
+    <a id="btn-descarga-cancion" class="btn btn--descarga" href="videos/la-adrada-estamos-contigo.mp3" download="La Adrada, Estamos Contigo.mp3" aria-label="Descargar la canción">
+      <svg class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </a>
     <button id="btn-capa" class="btn btn--capa" aria-pressed="false">
       <svg class="btn__icono" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
       <span>Satélite</span>
