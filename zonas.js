@@ -285,7 +285,7 @@ const ZONAS = [
     nombre: "La Picota",
     fecha: "2026-07-27",
     autor: "María",
-    coords: [40.2985, -4.62699],
+    coords: [40.29632, -4.62692],
     videos: [
       { src: "videos/picota.mp4" }
     ],
