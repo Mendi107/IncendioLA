@@ -364,15 +364,6 @@ const ZONAS = [
   },
 
   {
-    id: 9006,
-    nombre: "Sobre los Castaños de la Villa",
-    fecha: "2026-07-28",
-    tipo: "reactivacion",
-    coords: [40.31416, -4.63844],
-    videos: []
-  },
-
-  {
     id: 9007,
     nombre: "Puente Nuevo / Gorroneras",
     fecha: "2026-07-28",
