@@ -4,7 +4,10 @@
    Puntos de servicio (ayuntamiento, centro médico, policía, protección civil,
    turismo...) usan el mismo array pero con "categoria" en vez de "videos".
    No cuentan en el resumen de "zonas documentadas": se muestran aparte en el
-   mapa (icono propio, capa con botón "Servicios") y en la lista lateral. */
+   mapa (icono propio, capa con botón "Servicios") y en la lista lateral.
+
+   Cualquier zona puede llevar además "fotos" (mismo formato que "videos":
+   { src, autor? }), para cuando hay foto pero no vídeo. */
 
 const ZONAS = [
 
@@ -365,7 +368,10 @@ const ZONAS = [
     fecha: "2026-07-28",
     tipo: "reactivacion",
     coords: [40.31416, -4.63844],
-    videos: []
+    videos: [],
+    fotos: [
+      { src: "videos/react01.jpg" }
+    ]
   },
 
   {

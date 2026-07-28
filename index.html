@@ -221,6 +221,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   display:block;width:100%;aspect-ratio:16/9;background:#000;
   border:1px solid var(--granito);border-radius:var(--radio);
 }
+.clip img{
+  display:block;width:100%;height:auto;background:#000;
+  border:1px solid var(--granito);border-radius:var(--radio);
+}
 .aviso{
   padding:14px;border:1px dashed var(--granito);border-radius:var(--radio);
   font-size:13px;color:var(--ceniza);
@@ -706,9 +710,19 @@ body.modo-anadir .tira__ayuda{display:block}
         }
         html += "</div>";
       });
-    } else if (!esAlerta) {
+    } else if (!esAlerta && !(z.fotos && z.fotos.length)) {
       html += '<div class="aviso">Esta zona todavía no tiene vídeo. Copia el archivo en la carpeta ' +
               "<code>videos/</code> y añádelo a esta zona en <code>zonas.js</code>.</div>";
+    }
+
+    if (z.fotos && z.fotos.length) {
+      z.fotos.forEach(function(f){
+        html += '<div class="clip">';
+        if (f.autor || z.autor) {
+          html += '<div class="clip__cab"><span class="clip__autor">' + esc(f.autor || z.autor) + "</span></div>";
+        }
+        html += '<img loading="lazy" src="' + esc(f.src) + '" alt="' + esc(z.nombre) + '"></div>';
+      });
     }
 
     html += '<p class="panel__coord mono">' + z.coords[0].toFixed(5) + ", " + z.coords[1].toFixed(5) +
