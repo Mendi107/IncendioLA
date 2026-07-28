@@ -305,21 +305,21 @@ const ZONAS = [
   {
     id: 31,
     nombre: "Castillo de La Adrada",
-    categoria: "turismo",
+    categoria: "castillo",
     coords: [40.29877, -4.64004]
   },
 
   {
     id: 32,
     nombre: "Ermita de la Yedra",
-    categoria: "turismo",
+    categoria: "religioso",
     coords: [40.30364, -4.63526]
   },
 
   {
     id: 33,
     nombre: "Iglesia del Salvador",
-    categoria: "turismo",
+    categoria: "religioso",
     coords: [40.29965, -4.63444]
   },
 
